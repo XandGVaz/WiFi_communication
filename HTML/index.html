@@ -1,33 +1,50 @@
 <!DOCTYPE html>  
-<html> 
+<html lan="en-EN"> 
     <head> 
+        <meta http-equiv='refresh' content='60'/>
         <style media='screen' type='text/css'> 
-            html{display:inline-block; margin:10px; text-align:center} 
-        </style> 
+            html{display:inline-block; margin:10px;}
+            body{background-image: linear-gradient(45deg, rgb(248, 248, 248), rgb(209, 204, 204));}
+            h1{text-align: center;font-size: 40px;}
+            h2{margin-bottom: 0px;}
+            .Interactive{font-size: 40px;background-image: linear-gradient(45deg, white, rgb(234, 240, 248));display: flex;height: auto; flex-flow: column wrap;justify-content: center;align-items: center;text-align: center;margin: 1% 0% 1% 0%; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);padding: 50px 0px 50px 0px;}
+            .Interactive input{font-size: 40px;width: 90%; text-align: center;}
+            .Interactive h3{font-size: 30px;justify-content: left;}
+            .ledButton {font-size: 40px;width: 300px;height: 100px;margin-top: 10px;border-radius: 50px}
+            .ledButton:hover{background-color: black;color: white;} 
+            .submitButton{font-size: 20px;width: 150px;height: 50px;margin-top: 10px;border-radius: 50px}
+            .submitButton:hover{background-color: black;color: white;} 
+            #received {background-color: white;width: 90%; text-align: center;height: 90px;border: 1px solid rgb(33, 33, 37); text-align: center;}
+            </style>
+        <script>
+            // Função que atualiza campo de dados recebidos do servidor
+            function updateReceived(){
+                let id = document.getElementById('received');       // recebe elemento com a id de recepção de dados
+                var xhr = new XMLHttpRequest();                     // variável de requisição
+                xhr.open('GET', '/update', true);                   // cria requisição para usar método GET e a URL \update
+                xhr.onreadystatechange = function() {               // cria função para ser chamada quando o estado de requisição mudar
+                    
+                    if (xhr.readyState == 4/*requisição completa*/ && xhr.status == 200/*requisição bem sucedida*/) {
+                        id.innerText = xhr.responseText             // atualização do conteúdo do ID com a resposta da requisição
+                    }
+                };
+                xhr.send();                                         // envia requisição
+            }
+            // Script realizado a cada 1 segundo 
+            setInterval(updateReceived, 1000);
+        </script> 
     </head> 
     <body> 
-        <h1 style="font-size: 40px;"> Página IOT </h1>
-        <h2>Acendimento de leds</h2>
-        <form action="/" method="post">
-            <p>
-                <button style="font-size: 40px; width: 100px" type="submit" name="LED_ON" value="on">ON</button>
-            </p>
-            <p>
-                <button style="font-size: 40px; width: 100px" type="submit" nmae="LED_OFF" value="off" font-s>OFF</button>
-            </p>
-        </form>
+        <h1 style="font-size: 40px;"> IOT Page </h1>
+        <h2>Activity leds</h2>
+        <div class="Interactive"><form action="/" method="post">
+                <p><button class="ledButton" type="submit" name="LED_ON" value="on">ON</button></p>
+                <p><button class="ledButton" type="submit" nmae="LED_OFF" value="off" font-s>OFF</button></p></form></div>
         <br><br>
-        <h2>Comunicação</h2>
-        <form action="/" method="post">
-            <label for="cliente">Mensagem: </label>
-            <input type="text" id="cliente" name="clienteMsg" maxlength="12">
-            <button type="submit">Enviar</button>
-            
-        </form>
-        <br>
-        <div>
-            <label for="estacao">Estacao</label>
-            <text id="Estacao:">recebido</text>
-        </div>    
+        <h2>Messages for MCU</h2>
+        <div class="Interactive"><form action="/" method="post"><h3>Mensagem</h3><p><input type="text" id="client" name="clientMsg" ></p><p><button class="submitButton" type="submit">Send</button></p></form></div>
+        <br><br>
+        <h2>Messages from MCU</h2>
+        <div class="Interactive"><h3>Received</h3><p id="received"></p></div>    
     </body> 
 </html>

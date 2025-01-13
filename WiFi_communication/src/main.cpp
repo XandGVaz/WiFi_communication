@@ -18,7 +18,7 @@ void WiFiConnect(){
     }
 
     // Conexão concluída
-    Serial.print("Connect with IP addres: ");
+    Serial.print("\nConnect with IP addres: ");
     Serial.println(WiFi.localIP());
 }
 
@@ -34,7 +34,7 @@ void handleBlink(){
 // Lida com comandos de submissão da paǵina
 void handleSubmit(){
     if(server.hasArg("clientMsg")){
-        Serial.print("Usuário: ");
+        Serial.print("Received: ");
         Serial.println(server.arg("clientMsg"));
     }
 }
@@ -50,14 +50,21 @@ void handleRoot(){
   if(server.hasArg("clientMsg"))
     handleSubmit();
 
-  server.send(200, "text/html", getPage(output));
+  server.send(200, "text/html"/*texto do tipo html*/, getPage());
+}
+
+// Função que atualiza dados enviados do servidor para o cliente
+void handleUpdate(){
+  server.send(200, "text/plain"/*texto normal*/, output);
 }
 
 // Criação do server
 void createServer(){
-    server.on("/", handleRoot);
-    server.begin();
-    Serial.println("HTTP server started!");
+  server.on("/", handleRoot);
+  server.on("/update", handleUpdate);
+  server.begin();
+  Serial.println("HTTP server started!");
+  Serial.println("\nChat:");
 }
 
 void setup() {
@@ -83,7 +90,9 @@ void loop() {
   // Se ouver dados do serial, são lidos e transmitidos para página HTML
   if(Serial.available()){
     output = Serial.readString();
-    Serial.println("Enviado: " + output);
+    output.replace("\n", "");
+    output.replace("\r", "");
+    Serial.println("Send: " + output);
   }
 
   delay(100);
