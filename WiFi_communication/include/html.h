@@ -6,7 +6,7 @@ String getPage(){
     String html = "<!DOCTYPE html>";
     html += "<html lang=en-EN>";
     html += "<head>";
-    html += "<meta http-equiv='refresh' content='60'/>";
+    html += "<meta http-equiv='refresh'/>";
     html += "<style media='screen' type='text/css'>";
     html += "html{display:inline-block; margin:10px;}";
     html += "body{background-image: linear-gradient(45deg, rgb(248, 248, 248), rgb(209, 204, 204));}";

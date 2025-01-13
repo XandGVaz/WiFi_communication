@@ -6,6 +6,7 @@ void WiFiConnect(){
     WiFi.disconnect();
 
     // Configura ESP32 como extação de WiFi sem desabilitar demais modos
+    // WiFi.config(LocalIP, Gateway, Subnet);
     WiFi.enableSTA(true);
     delay(2000);
 
@@ -24,18 +25,18 @@ void WiFiConnect(){
 
 // Lida com comandos de acendimento de led da página 
 void handleBlink(){
-  if(server.arg("LED_ON") == "on")
+  if(Server.arg("LED_ON") == "on")
       digitalWrite(PIN_LED, HIGH);
 
-  if(server.arg("LED_OFF") == "off")
+  if(Server.arg("LED_OFF") == "off")
       digitalWrite(PIN_LED, LOW);
 }
 
 // Lida com comandos de submissão da paǵina
 void handleSubmit(){
-    if(server.hasArg("clientMsg")){
+    if(Server.hasArg("clientMsg")){
         Serial.print("Received: ");
-        Serial.println(server.arg("clientMsg"));
+        Serial.println(Server.arg("clientMsg"));
     }
 }
 
@@ -43,28 +44,45 @@ void handleSubmit(){
 void handleRoot(){
   
   // Caso algum botão tenha sido apertado
-  if(server.hasArg("LED_ON") || server.hasArg("LED_OFF"))
+  if(Server.hasArg("LED_ON") || Server.hasArg("LED_OFF"))
     handleBlink();
   
   // Caso alguma mensagem tenha sido enviada
-  if(server.hasArg("clientMsg"))
+  if(Server.hasArg("clientMsg"))
     handleSubmit();
 
-  server.send(200, "text/html"/*texto do tipo html*/, getPage());
+  Server.send(200, "text/html"/*texto do tipo html*/, getPage());
 }
 
 // Função que atualiza dados enviados do servidor para o cliente
 void handleUpdate(){
-  server.send(200, "text/plain"/*texto normal*/, output);
+  Server.send(200, "text/plain"/*texto normal*/, Sended);
 }
 
-// Criação do server
+// Criação do Server
 void createServer(){
-  server.on("/", handleRoot);
-  server.on("/update", handleUpdate);
-  server.begin();
-  Serial.println("HTTP server started!");
+  Server.on("/", handleRoot);
+  Server.on("/update", handleUpdate);
+  Server.begin();
+  Serial.println("HTTP Server started!");
   Serial.println("\nChat:");
+}
+
+// Função que lida com as solicitações do cliente
+void handleClient(){
+  Server.handleClient();
+}
+
+// Função responsável por definir o dado (do monitor Serial) a ser enviado para o cliente
+void sendData(){ 
+
+  // configura dado a ser enviado
+  Sended = Serial.readString();
+  Sended.replace("\n", "");
+  Sended.replace("\r", "");
+
+  // Imprime dado no monitor serial
+  Serial.println("Send: " + Sended);
 }
 
 void setup() {
@@ -78,21 +96,18 @@ void setup() {
   // Conexão com rede WiFi
   WiFiConnect();
 
-  // Criação do server dentro da rede WiFi
+  // Criação do Server dentro da rede WiFi
   createServer();
 }
 
 void loop() {
-  
+
   // verifica se há requisições de novos clientes e configura rotas adequadas
-  server.handleClient();
+  handleClient();
 
   // Se ouver dados do serial, são lidos e transmitidos para página HTML
   if(Serial.available()){
-    output = Serial.readString();
-    output.replace("\n", "");
-    output.replace("\r", "");
-    Serial.println("Send: " + output);
+    sendData();  
   }
 
   delay(100);
