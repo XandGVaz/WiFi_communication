@@ -1,0 +1,33 @@
+<!DOCTYPE html>  
+<html> 
+    <head> 
+        <style media='screen' type='text/css'> 
+            html{display:inline-block; margin:10px; text-align:center} 
+        </style> 
+    </head> 
+    <body> 
+        <h1 style="font-size: 40px;"> Página IOT </h1>
+        <h2>Acendimento de leds</h2>
+        <form action="/" method="post">
+            <p>
+                <button style="font-size: 40px; width: 100px" type="submit" name="LED_ON" value="on">ON</button>
+            </p>
+            <p>
+                <button style="font-size: 40px; width: 100px" type="submit" nmae="LED_OFF" value="off" font-s>OFF</button>
+            </p>
+        </form>
+        <br><br>
+        <h2>Comunicação</h2>
+        <form action="/" method="post">
+            <label for="cliente">Mensagem: </label>
+            <input type="text" id="cliente" name="clienteMsg" maxlength="12">
+            <button type="submit">Enviar</button>
+            
+        </form>
+        <br>
+        <div>
+            <label for="estacao">Estacao</label>
+            <text id="Estacao:">recebido</text>
+        </div>    
+    </body> 
+</html>
