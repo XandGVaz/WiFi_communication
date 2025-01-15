@@ -1,7 +1,7 @@
 <!DOCTYPE html>  
 <html lan="en-EN"> 
-    <head> 
-        <meta http-equiv='refresh'/>
+    <head>
+        <meta charset="UTF-8"> 
         <style media='screen' type='text/css'> 
             html{display:inline-block; margin:10px;}
             body{background-image: linear-gradient(45deg, rgb(235, 247, 245), rgb(230, 241, 243));}
@@ -41,7 +41,7 @@
             function updateTemperature(){
                 let id = document.getElementById('temperature');       // recebe elemento com a id de recepção de dados
                 var xhr = new XMLHttpRequest();                     // variável de requisição
-                xhr.open('GET', '/temp', true);                   // cria requisição para usar método GET e a URL \update
+                xhr.open('GET', '/temp', true);                     // cria requisição para usar método GET e a URL \temp
                 xhr.onreadystatechange = function() {               // cria função para ser chamada quando o estado de requisição mudar
                     
                     if (xhr.readyState == 4/*requisição completa*/ && xhr.status == 200/*requisição bem sucedida*/) {
@@ -53,7 +53,7 @@
             function updateHumidity(){
                 let id = document.getElementById('humidity');       // recebe elemento com a id de recepção de dados
                 var xhr = new XMLHttpRequest();                     // variável de requisição
-                xhr.open('GET', '/hum', true);                   // cria requisição para usar método GET e a URL \update
+                xhr.open('GET', '/hum', true);                      // cria requisição para usar método GET e a URL \hum
                 xhr.onreadystatechange = function() {               // cria função para ser chamada quando o estado de requisição mudar
                     
                     if (xhr.readyState == 4/*requisição completa*/ && xhr.status == 200/*requisição bem sucedida*/) {
@@ -62,6 +62,37 @@
                 };
                 xhr.send();                                         // envia requisição
             }
+            function sendLed(event){
+                event.preventDefault();                             // previne o comportamento padrão do formulário
+                var xhr = new XMLHttpRequest();                     // variável de requisição
+                xhr.open('POST', '/', true);                        // cria requisição para usar método POST e a URL \update
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); // define o tipo de conteúdo da requisição
+                xhr.onreadystatechange = function(){                // cria função para ser chamada quando o estado de requisição mudar
+                    if(xhr.readyState == 4 && xhr.status == 200){   // verifica se a requisição foi completada e bem sucedida
+                        console.log('Log submit successfully');     // imprime no console que a requisição foi bem sucedida
+                    }
+                };
+                let ledForm = new FormData(document.getElementById('ledForm')); // cria um formulário com os dados do formulário com a id ledForm
+                xhr.send(new URLSearchParams(ledForm).toString());              // envia a requisição com os dados do formulário
+            }
+            function sendMsg(event){
+                event.preventDefault();                             // previne o comportamento padrão do formulário
+                var xhr = new XMLHttpRequest();                     // variável de requisição
+                xhr.open('POST', '/', true);                        //  cria requisição para usar método POST e a URL \update
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');  // define o tipo de conteúdo da requisição
+                xhr.onreadystatechange = function(){                // cria função para ser chamada quando o estado de requisição mudar 
+                    if(xhr.readyState == 4 && xhr.status == 200){   // verifica se a requisição foi completada e bem sucedida
+                        console.log('Log submit successfully');     // imprime no console que a requisição foi bem sucedida
+                        document.querySelector('.submitButton').disabled = true; // Desabilita o botão
+                    }
+                };
+                let msgForm = new FormData(document.getElementById('msgForm')); // cria um formulário com os dados do formulário com a id msgForm
+                xhr.send(new URLSearchParams(msgForm).toString());              // envia a requisição com os dados do formulário
+                
+                document.getElementById('msgForm').querySelector('input[type="text"]').value = '';  // Limpa o campo de texto
+                document.querySelector('.submitButton').disabled = false;                           // Habilita o botão
+            }
+            
             // Script realizado a cada 1 segundo 
             setInterval(updateReceived, 1000);
             setInterval(updateTemperature, 1000);
@@ -70,19 +101,19 @@
     </head> 
     <body> 
         <h1> IOT Page </h1>
+        <h2>Light control</h2>
+        <div class="Interactive"><form action="/" method="post">
+                <p><button class="ledButton" type="submit" name="LED_ON" value="on">ON</button></p>
+                <p><button class="ledButton" type="submit" name="LED_OFF" value="off">OFF</button></p></form></div>
+        <br><br>
         <h2>Evironment</h2>
         <div class="Evironment">
             <div class="Interactive"><h3>Temperature</h3><p id="temperature"></p></div>
             <div class="Interactive"><h3>Humidity</h3><p id="humidity"></p></div>
         </div> 
         <br><br>
-        <h2>Light control</h2>
-        <div class="Interactive"><form action="/" method="post">
-                <p><button class="ledButton" type="submit" name="LED_ON" value="on">ON</button></p>
-                <p><button class="ledButton" type="submit" name="LED_OFF" value="off">OFF</button></p></form></div>
-        <br><br>
         <h2>Messages for MCU</h2>
-        <div class="Interactive"><form action="/" method="post"><h3>Mensagem</h3><p><input type="text" id="client" name="clientMsg" ></p><p><button class="submitButton" type="submit">Send</button></p></form></div>
+        <div class="Interactive"><form id="msgForm" onsubmit="sendMsg(event)"><h3>Mensagem</h3><p><input type="text" id="client" name="clientMsg" ></p><p><button class="submitButton" type="submit">Send</button></p></form></div>
         <br><br>
         <h2>Messages from MCU</h2>
         <div class="Interactive"><h3>Received</h3><p id="received"></p></div>

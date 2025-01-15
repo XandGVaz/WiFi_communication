@@ -46,6 +46,7 @@ void WiFiConnect(){
     delay(2000);
 
     // Conexão com roteador
+    Serial.println(F("\n===================================="));
     Serial.print("Connect with WiFI ");
     WiFi.begin(ssidRounter, passwordRounter);
     while(WiFi.status() != WL_CONNECTED){
@@ -83,14 +84,16 @@ void handleSubmit(){
 
 // Lida com a criação da página raíz
 void handleRoot(){
-  
-  // Caso algum botão tenha sido apertado
-  if(Server.hasArg("LED_ON") || Server.hasArg("LED_OFF"))
-    handleBlink();
-  
-  // Caso alguma mensagem tenha sido enviada
-  if(Server.hasArg("clientMsg"))
-    handleSubmit();
+
+  if(Server.method() == HTTP_POST){
+    // Caso algum botão tenha sido apertado
+    if(Server.hasArg("LED_ON") || Server.hasArg("LED_OFF"))
+      handleBlink();
+
+    // Caso alguma mensagem tenha sido enviada
+    if(Server.hasArg("clientMsg"))
+      handleSubmit();
+  }
 
   Server.send(200, "text/html"/*texto do tipo html*/, getPage());
 }
@@ -114,7 +117,8 @@ void handleUpdateHum(){
 
 // Criação do Server
 void createServer(){
-  Server.on("/", handleRoot);               // lida com atualização de página
+  Server.on("/", HTTP_GET ,handleRoot);               // lida com atualização de página
+  Server.on("/", HTTP_POST ,handleRoot);               // lida com atualização de página
   Server.on("/received", HTTP_GET, handleUpdateReceived);     // lida com atualização de dado recebido pelo cliente
   Server.on("/temp", HTTP_GET, handleUpdateTemp);     // lida com atualização da temperatura ambiente
   Server.on("/hum", HTTP_GET ,handleUpdateHum);       // lida com atualização da humdiade do ambiente
@@ -141,7 +145,7 @@ void sendData(){
 
   // Imprime dado no monitor serial
   Serial.println(F("------------------------------------"));
-  Serial.println("Send: " + Sended);
+  Serial.println("Sended: " + Sended);
 }
 
 /*===============================================================================*/
