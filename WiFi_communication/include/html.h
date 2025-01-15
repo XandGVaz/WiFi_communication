@@ -1,10 +1,12 @@
 #ifndef HTML_H
 #define HTML_H
 
+// Função que retorna String que contem a estrutura HTML da página (incluindo CSS e JavaScript internos)
 String getPage(){
     String page = "<!DOCTYPE html>";
     page += "<html lan=\"en-EN\">";
     page += "<head>";
+    page += "<meta charset=\"UTF-8\">";
     page += "<style media='screen' type='text/css'>";
     page += "html{display:inline-block; margin:10px;}";
     page += "body{background-image: linear-gradient(45deg, rgb(235, 247, 245), rgb(230, 241, 243));}";
@@ -41,7 +43,7 @@ String getPage(){
     page += "xhr.open('GET', '/temp', true);";
     page += "xhr.onreadystatechange = function() {";
     page += "if (xhr.readyState == 4 && xhr.status == 200) {";
-    page += "id.innerText = xhr.responseText + \" °C\"";
+    page += "id.innerText = xhr.responseText + \" \u00B0 C\"";
     page += "}";
     page += "};";
     page += "xhr.send();";
@@ -57,9 +59,9 @@ String getPage(){
     page += "};";
     page += "xhr.send();";
     page += "}";
-    page += "setInterval(updateReceived, 100);";
-    page += "setInterval(updateTemperature," + String(delayDHT) + ");";
-    page += "setInterval(updateHumidity," + String(delayDHT) + ");";
+    page += "setInterval(updateReceived, 1500);";
+    page += "setInterval(updateTemperature, 1500);";
+    page += "setInterval(updateHumidity, 1500);";
     page += "</script>";
     page += "</head>";
     page += "<body>";

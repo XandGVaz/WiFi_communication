@@ -1,6 +1,41 @@
 #include "header.h"
 
 /*===============================================================================*/
+
+void setup() {
+
+  // Configura pino do led como saída do sistema
+  pinMode(PIN_LED, OUTPUT);
+
+  // Configura sensor DHT
+  setupDHT();
+
+  // Configura LCD1602
+  setupLCD();
+
+  // Configuração do monitor serial
+  Serial.begin(115200);
+
+  // Conexão com rede WiFi
+  WiFiConnect();
+
+  // Criação do Server dentro da rede WiFi
+  createServer();
+}
+
+void loop() {
+
+  // Verifica se há requisições de novos clientes e configura rotas adequadas
+  handleClient();
+
+  // Se ouver dados do serial, são lidos e transmitidos para página HTML
+  if(Serial.available()){
+    sendData();  
+  }
+
+}
+
+/*===============================================================================*/
 // Conexão com rede WifFi
 void WiFiConnect(){
     // Desconexão de uma rede anterior
@@ -34,9 +69,15 @@ void handleBlink(){
 
 // Lida com comandos de submissão da paǵina
 void handleSubmit(){
+    String received;
     if(Server.hasArg("clientMsg")){
-        Serial.print("Received: ");
-        Serial.println(Server.arg("clientMsg"));
+      received = Server.arg("clientMsg");
+      updateValueLCD(received);
+
+      Serial.println(F("------------------------------------"));
+      Serial.print("Received: ");
+      Serial.println(received);
+      
     }
 }
 
@@ -61,11 +102,13 @@ void handleUpdateReceived(){
 
 // Função que atualiza dados enviados do servidor para o cliente
 void handleUpdateTemp(){
+  updateValueDHT();
   Server.send(200, "text/plain"/*texto normal*/, Temperature);
 }
 
 // Função que atualiza dados enviados do servidor para o cliente
 void handleUpdateHum(){
+  updateValueDHT();
   Server.send(200, "text/plain"/*texto normal*/, Humidity);
 }
 
@@ -79,7 +122,8 @@ void createServer(){
 
   // Avisa que server começou
   Serial.println("HTTP Server started!");
-  Serial.println("\nChat:");
+  Serial.println(F("\n===================================="));
+  Serial.println("Chat:");
 }
 
 // Função que lida com as solicitações do cliente
@@ -96,66 +140,87 @@ void sendData(){
   Sended.replace("\r", "");
 
   // Imprime dado no monitor serial
+  Serial.println(F("------------------------------------"));
   Serial.println("Send: " + Sended);
 }
 
 /*===============================================================================*/
+// Função responsável por configurar o sensor DHT
 void setupDHT(){
+  // Iniciação do sensor DHT
+  DHT.begin();
   DHT.temperature().getSensor(&Sensor);
   DHT.humidity().getSensor(&Sensor);
-  delayDHT = Sensor.min_delay / 1000;
 }
 
+// Função que lê informações do sensor e atualizar dados de temperatura e umidade
 void updateValueDHT(){
   
-  sensors_event_t event;
-  float temperature, humidity;
+  sensors_event_t event;                          // evento de sensoriamento
+  float temperature, humidity;                    // armazena valores numéricos
 
+  // Obtenção da temperatura
   DHT.temperature().getEvent(&event);
-  if(isnan(event.temperature)) temperature = -1;
+  if(isnan(event.temperature)) temperature = -1;  // verifica erros
   else temperature = event.temperature;
 
-  DHT.temperature().getEvent(&event);
-  if(isnan(event.relative_humidity)) humidity = -1;
+  // Obtenção da umidade
+  DHT.humidity().getEvent(&event);
+  if(isnan(event.relative_humidity)) humidity = -1;// verifica erros
   else humidity = event.temperature;
 
+  // Atualização dos dados de temperatura e umidade
   Temperature = String(temperature); Humidity = String(humidity);
-
 }
 
 /*===============================================================================*/
-void setup() {
 
-  // Configura pino do led como saída do sistema
-  pinMode(PIN_LED, OUTPUT);
-
-  // Configura sensor DHT
-  setupDHT();
-
-  // Configuração do monitor serial
-  Serial.begin(115200);
-
-  // Conexão com rede WiFi
-  WiFiConnect();
-
-  // Criação do Server dentro da rede WiFi
-  createServer();
+// Função responssável por testar a conexão de um endereço (verificando se ele existe)
+bool I2CAddrTest(byte addr){
+  // Começa transmissão de barramento com o endereço passado por parâmetro
+  Wire.beginTransmission(addr);
+  
+  // Se a transmissão ocorrer automaticamente, o endereço existe
+  if(Wire.endTransmission() == 0);
+    return true;
+  
+  // Caso contrário (demorou mais tempo para término da transmissão), o endereço não existe
+  return false;
 }
 
-void loop() {
+// Configuração do display LCD1602
+void setupLCD(){
+  // Barramento de dados + controle
+  Wire.begin(SDA, SCL); // necessário para o funcionamento da biblioteca LiquidCrystal_I2C 
 
-  // Verifica se há requisições de novos clientes e configura rotas adequadas
-  handleClient();
+  // Caso o endereço do CI não exista no lcd, então trocamos de endereço
+  if(!I2CAddrTest(CI_ADDR1))
+    lcd = LiquidCrystal_I2C(CI_ADDR2, 16, 2);
 
-  // Atualização com dados do sensoriamento de temperatura e humidade
-  // updateValueDHT();
+  // Iniciação do driver do LCD
+  lcd.init();
 
-  // Se ouver dados do serial, são lidos e transmitidos para página HTML
-  if(Serial.available()){
-    sendData();  
+  // Abre luz de fundo do LCD
+  lcd.backlight();
+}
+
+void updateValueLCD(String value){
+
+  // Limpa tela do LCD
+  lcd.clear();
+
+  // Seta a posição de impressão no lcd no início da primeira linha
+  lcd.setCursor(0,0);
+
+  // Impressão de dado que cabe na primeira linha do LCD
+  if(value.length() <= 10){         
+    lcd.print("Usr: " + value);
+    return ;
   }
 
-  // Serial.println("Humidity: " + Temperature + "ºC  Temperature: " + Humidity);
-  delay(delayMS);
+  // Impressão de dados que exigem o uso de duas linhas
+  lcd.print("Usr: " + value.substring(0,11));
+  lcd.setCursor(0,1);
+  lcd.print(value.substring(11,27));
 
 }
