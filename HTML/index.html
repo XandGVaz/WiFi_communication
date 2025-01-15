@@ -1,29 +1,126 @@
-<!DOCTYPE html>  
-<html lan="en-EN"> 
+<!DOCTYPE html>
+<html lan="en-EN">
     <head>
-        <meta charset="UTF-8"> 
-        <style media='screen' type='text/css'> 
-            html{display:inline-block; margin:10px;}
-            body{background-image: linear-gradient(45deg, rgb(235, 247, 245), rgb(230, 241, 243));}
-            h1 {text-align: center;font-size: 48px;font-weight: 700;font-family: 'Roboto', sans-serif;color: #2c3e50;margin-top: 20px;margin-bottom: 20px;text-transform: uppercase;letter-spacing: 2px}
-            h2 {font-size: 35px;font-family: 'Verdana', sans-serif;color: #555;margin-top: 15px;margin-bottom: 15px;text-align: left}
-            .Interactive{font-size: 40px;background-image: linear-gradient(45deg, white, rgb(234, 240, 248));display: flex;height: auto; flex-flow: column wrap;justify-content: center;align-items: center;text-align: center;margin: 1% 0% 1% 0%; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);padding: 50px 0px 50px 0px;}
-            .Interactive input{width: 800px; height: 90px; font-size: 40px; text-align: center}
-            .Interactive h3{font-size: 30px;justify-content: left;}
-            .ledButton {font-size: 40px;width: 300px;height: 100px;margin-top: 10px;border-radius: 50px}
-            .ledButton:hover{background-color: black;color: white;} 
-            .submitButton{font-size: 20px;width: 150px;height: 50px;margin-top: 10px;border-radius: 50px}
-            .submitButton:hover{background-color: black;color: white;} 
-            #received {background-color: white;width: 800px; text-align: center;height: 90px;border: 1px solid rgb(33, 33, 37); text-align: center;}
-            .Evironment{background-image:linear-gradient(45deg, rgb(242, 248, 230), rgb(212, 226, 245));box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);padding: 50px 0px 50px 0px;display: flex;flex-flow: row nowrap;justify-content: center;padding: 5px}
-            .Evironment .Interactive{ margin: 20px 40px 20px 40px; padding: 2% 5% 2% ; width: 30%}
-            .Evironment .Interactive h3{font-size: 65%;}
-            .Evironment .Interactive:hover{opacity: 70%;}
-            @media screen and (max-width: 1000px){
-                #received {width: 400px;}
-                .Interactive input{width: 400px;}
+        <meta charset="UTF-8" />
+        <style media="screen" type="text/css">
+            html {
+              display: inline-block;
+              margin: 10px;
             }
-            </style>
+            body {
+              background-image: linear-gradient(
+                45deg,
+                rgb(235, 247, 245),
+                rgb(230, 241, 243)
+              );
+            }
+            h1 {
+              text-align: center;
+              font-size: 48px;
+              font-weight: 700;
+              font-family: "Roboto", sans-serif;
+              color: #2c3e50;
+              margin-top: 20px;
+              margin-bottom: 20px;
+              text-transform: uppercase;
+              letter-spacing: 2px;
+            }
+            h2 {
+              font-size: 35px;
+              font-family: "Verdana", sans-serif;
+              color: #555;
+              margin-top: 15px;
+              margin-bottom: 15px;
+              text-align: left;
+            }
+            .Interactive {
+              font-size: 40px;
+              background-image: linear-gradient(45deg, white, rgb(234, 240, 248));
+              display: flex;
+              height: auto;
+              flex-flow: column wrap;
+              justify-content: center;
+              align-items: center;
+              text-align: center;
+              margin: 1% 0% 1% 0%;
+              box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+                0 6px 20px 0 rgba(0, 0, 0, 0.19);
+              padding: 50px 0px 50px 0px;
+            }
+            .Interactive input {
+              width: 800px;
+              height: 90px;
+              font-size: 40px;
+              text-align: center;
+            }
+            .Interactive h3 {
+              font-size: 30px;
+              justify-content: left;
+            }
+            .ledButton {
+              font-size: 40px;
+              width: 300px;
+              height: 100px;
+              margin-top: 10px;
+              border-radius: 50px;
+            }
+            .ledButton:hover {
+              background-color: black;
+              color: white;
+            }
+            .submitButton {
+              font-size: 20px;
+              width: 150px;
+              height: 50px;
+              margin-top: 10px;
+              border-radius: 50px;
+            }
+            .submitButton:hover {
+              background-color: black;
+              color: white;
+            }
+            #received {
+              background-color: white;
+              width: 800px;
+              text-align: center;
+              height: 90px;
+              border: 1px solid rgb(33, 33, 37);
+              text-align: center;
+            }
+            .Evironment {
+              background-image: linear-gradient(
+                45deg,
+                rgb(242, 248, 230),
+                rgb(212, 226, 245)
+              );
+              box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+                0 6px 20px 0 rgba(0, 0, 0, 0.19);
+              padding: 50px 0px 50px 0px;
+              display: flex;
+              flex-flow: row nowrap;
+              justify-content: center;
+              padding: 5px;
+            }
+            .Evironment .Interactive {
+              margin: 20px 40px 20px 40px;
+              padding: 2% 5% 2%;
+              width: 30%;
+            }
+            .Evironment .Interactive h3 {
+              font-size: 65%;
+            }
+            .Evironment .Interactive:hover {
+              opacity: 70%;
+            }
+            @media screen and (max-width: 1000px) {
+              #received {
+                width: 400px;
+              }
+              .Interactive input {
+                width: 400px;
+              }
+            }
+        </style>
         <script>
             // Função que atualiza campo de dados recebidos do servidor
             function updateReceived(){
@@ -102,9 +199,12 @@
     <body> 
         <h1> IOT Page </h1>
         <h2>Light control</h2>
-        <div class="Interactive"><form action="/" method="post">
+        <div class="Interactive">
+            <form action="/" method="post">
                 <p><button class="ledButton" type="submit" name="LED_ON" value="on">ON</button></p>
-                <p><button class="ledButton" type="submit" name="LED_OFF" value="off">OFF</button></p></form></div>
+                <p><button class="ledButton" type="submit" name="LED_OFF" value="off">OFF</button></p>
+            </form>
+        </div>
         <br><br>
         <h2>Evironment</h2>
         <div class="Evironment">
@@ -113,7 +213,13 @@
         </div> 
         <br><br>
         <h2>Messages for MCU</h2>
-        <div class="Interactive"><form id="msgForm" onsubmit="sendMsg(event)"><h3>Mensagem</h3><p><input type="text" id="client" name="clientMsg" ></p><p><button class="submitButton" type="submit">Send</button></p></form></div>
+        <div class="Interactive">
+            <form id="msgForm" onsubmit="sendMsg(event)">
+                <h3>Mensagem</h3>
+                <p><input type="text" id="client" name="clientMsg" ></p>
+                <p><button class="submitButton" type="submit">Send</button></p>
+            </form>
+        </div>
         <br><br>
         <h2>Messages from MCU</h2>
         <div class="Interactive"><h3>Received</h3><p id="received"></p></div>
