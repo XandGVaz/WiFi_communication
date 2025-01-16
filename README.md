@@ -9,13 +9,25 @@ Este projeto é uma página web para controle e monitoramento de dispositivos Io
 - Exibição de mensagens recebidas em um display LCD1602
 - Envio e recepção de mensagens para e do MCU (ESP32)
 
-## Estrutura do Projeto
+## Estrutura do Software do Projeto
 
-- `HTML/index.html`: Página principal com a interface do usuário
-- `WiFi_communication/include/html.h`: Estrutura HTML gerada pelo ESP32
-- `WiFi_communication/src/main.cpp`: Código fonte principal para o ESP32
-- `WiFi_communication/include/definitions.h`: Arquivo header com definições, bibliotecas usadas e declaração de funções
-- `WiFi_communication/platformio.ini`: Arquivo de configuração do PlatformIO
+- `template/index.html`: Página principal com a interface do usuário
+- `project/include/html.h`: Estrutura HTML gerada pelo ESP32
+- `project/src/main.cpp`: Código fonte principal para o ESP32
+- `project/include/header.h`: Arquivo header com definições, bibliotecas usadas e declaração de funções para ESP32
+- `project/platformio.ini`: Arquivo de configuração do PlatformIO
+
+## Estrutura do Hardware do Projeto
+
+<p
+    style="text-align: center"
+>
+    <img
+        src="./template/circuit_image.png"
+        width="600px"
+        height="600px"  
+    >
+</p>
 
 ## Como Usar
 
@@ -27,7 +39,7 @@ Este projeto é uma página web para controle e monitoramento de dispositivos Io
     ```bash
     cd WiFi_communication
     ```
-3. Abra o arquivo `HTML/index.html` no seu navegador para visualizar a interface web.
+3. Abra o arquivo `template/index.html` no seu navegador para visualizar um protótipo da interface web.
 
 ### Configuração do ESP32
 
@@ -43,6 +55,10 @@ Este projeto é uma página web para controle e monitoramento de dispositivos Io
 4. Abra o monitor serial para verificar a saída:
     ```bash
     platformio device monitor
+    ```
+5. No monitor serial será informado o IP da sua ESP32. Após a conexão ser concluida, para acessar a página, é necessário digitar o link do IP no navegador. Como exemplo para o IP 192.168.0.16
+    ```baseh
+    http://192.168.0.16/
     ```
 
 ## Exemplos de Uso
@@ -66,6 +82,22 @@ Na seção "Messages for MCU", você pode enviar mensagens para o ESP32.
 ### Recepção de Mensagens
 
 Na seção "Messages from MCU", você pode visualizar as mensagens recebidas do ESP32.
+
+## Bibliotecas Utilizadas
+
+As seguintes bibliotecas foram utilizadas no projeto e estão incluídas no arquivo `header.h`:
+
+- `Arduino.h`: Utilização de funções da ArduinoIDE.
+- `WiFi.h`: Criação de servidor WiFi.
+- `WebServer.h`: Criação de servidor web.
+- `html.h`: Estrutura HTML gerada pelo ESP32.
+- `Adafruit_Sensor.h`: Uso de sensores da Adafruit.
+- `DHT.h`: Uso do sensor DHT.
+- `DHT_U.h`: Uso do sensor DHT com a biblioteca unificada da Adafruit.
+- `LiquidCrystal_I2C.h`: Uso do display LCD1602.
+- `Wire.h`: Comunicação I2C.
+
+Essas bibliotecas são essenciais para o funcionamento do projeto, permitindo a comunicação WiFi, controle de LEDs, monitoramento de temperatura e umidade, e exibição de mensagens no display LCD1602.
 
 ## Contribuição
 
