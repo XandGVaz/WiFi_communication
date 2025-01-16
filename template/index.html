@@ -35,7 +35,11 @@
             }
             .Interactive {
               font-size: 40px;
-              background-image: linear-gradient(45deg, white, rgb(234, 240, 248));
+              background-image: linear-gradient(
+                45deg,
+                rgb(242, 248, 230),
+                rgb(212, 226, 245)
+              );
               display: flex;
               height: auto;
               flex-flow: column wrap;
@@ -102,6 +106,7 @@
               padding: 5px;
             }
             .Evironment .Interactive {
+              background-image: linear-gradient(45deg, white, rgb(234, 240, 248));
               margin: 20px 40px 20px 40px;
               padding: 2% 5% 2%;
               width: 30%;
@@ -215,7 +220,7 @@
         <h2>Messages for MCU</h2>
         <div class="Interactive">
             <form id="msgForm" onsubmit="sendMsg(event)">
-                <h3>Mensagem</h3>
+                <h3>Message</h3>
                 <p><input type="text" id="client" name="clientMsg" ></p>
                 <p><button class="submitButton" type="submit">Send</button></p>
             </form>

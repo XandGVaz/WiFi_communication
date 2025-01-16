@@ -2,12 +2,26 @@
 
 Este projeto é uma página web para controle e monitoramento de dispositivos IoT via comunicação WiFi, utilizando um ESP32. A página permite controlar LEDs, visualizar dados de temperatura e umidade em tempo real, e exibir mensagens recebidas em um display LCD1602.
 
+
 ## Funcionalidades
 
 - Controle de LEDs (ligar/desligar)
 - Monitoramento de temperatura e umidade usando um sensor KY-015 DHT
 - Exibição de mensagens recebidas em um display LCD1602
 - Envio e recepção de mensagens para e do MCU (ESP32)
+- Interface IOT
+<p
+    style="text-align: center"
+>
+    <img
+        src="./template/page_pt1.png"
+        width="500px"
+    >
+    <img
+        src="./template/page_pt2.png"
+        width="500px"
+    >
+</p>
 
 ## Estrutura do Software do Projeto
 
