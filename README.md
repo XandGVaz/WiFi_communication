@@ -11,16 +11,16 @@ Este projeto é uma página web para controle e monitoramento de dispositivos Io
 - Envio e recepção de mensagens para e do MCU (ESP32)
 - Interface IOT
 <p
-    style="text-align: center"
+    align="center"
 >
     <img
         src="./template/page_pt1.png"
         width="500px"
-    >
+    />
     <img
         src="./template/page_pt2.png"
         width="500px"
-    >
+    />
 </p>
 
 ## Estrutura do Software do Projeto
@@ -34,7 +34,7 @@ Este projeto é uma página web para controle e monitoramento de dispositivos Io
 ## Estrutura do Hardware do Projeto
 
 <p
-    style="text-align: center"
+    align="center"
 >
     <img
         src="./template/circuit_image.png"
