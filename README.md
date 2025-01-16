@@ -47,16 +47,20 @@ Este projeto é uma página web para controle e monitoramento de dispositivos Io
     ```bash
     pip install platformio
     ```
-2. Conecte seu ESP32 ao computador.
-3. Compile e faça o upload do código para o ESP32:
+2. Modifique o arquivo platform.ini para o modelo de sua ESP32 ( informação determinada na linha 13 )
+    ```
+    board = esp-wrover-kit
+    ```
+3. Conecte seu ESP32 ao computador.
+4. Compile e faça o upload do código para o ESP32:
     ```bash
     platformio run --target upload
     ```
-4. Abra o monitor serial para verificar a saída:
+5. Abra o monitor serial para verificar a saída:
     ```bash
     platformio device monitor
     ```
-5. No monitor serial será informado o IP da sua ESP32. Após a conexão ser concluida, para acessar a página, é necessário digitar o link do IP no navegador. Como exemplo para o IP 192.168.0.16
+6. No monitor serial será informado o IP da sua ESP32. Após a conexão ser concluida, para acessar a página, é necessário digitar o link do IP no navegador. Como exemplo para o IP 192.168.0.16
     ```baseh
     http://192.168.0.16/
     ```
