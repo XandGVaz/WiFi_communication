@@ -10,7 +10,7 @@
 // Criação de servidor
 #include <WiFi.h>
 #include <WebServer.h>
-#include "html.h"
+#include "html.hpp"
 
 // Uso do sensor DHT
 #include <Adafruit_Sensor.h>
