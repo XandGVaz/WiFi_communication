@@ -53,8 +53,7 @@ Este projeto é uma página web para controle e monitoramento de dispositivos Io
     ```bash
     cd WiFi_communication
     ```
-3. Abra o arquivo `template/index.html` no seu navegador para visualizar um protótipo da interface web.
-
+    
 ### Configuração do ESP32
 
 1. Instale o PlatformIO:
