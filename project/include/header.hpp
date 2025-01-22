@@ -10,7 +10,9 @@
 // Criação de servidor
 #include <WiFi.h>
 #include <WebServer.h>
+#ifdef DEF_MOD_HEADER_1
 #include "html.hpp"
+#endif
 
 // Uso do sensor DHT
 #include <Adafruit_Sensor.h>
@@ -32,29 +34,36 @@
 #define CI_ADDR1 0x27   // lcd1602 que usa PCF8574T, endereço I2C é 0x27 
 #define CI_ADDR2 0x3F   // lcd1602 que usa PCF8574AT, endereço I2c é 0x3F
 
+// Include Guard para evitar múltipla declaração de variáveis globais
+#ifdef DEF_MOD_HEADER_1
+    #define MOD_HEADER_1 extern
+#else
+    #define MOD_HEADER_1
+#endif
+
 /*===============================================================================*/
 // Informações da rede WiFi transmitida pelo roteador
 
-const String ssidRounter =  "Usa 3G folgado_2.4GHZ"; // nome da rede
-const String passwordRounter =  "soentrabonito";     // senha
-String Sended;                                       // dado enviado para cliente
-WebServer Server(80);                                // servidor criado
+MOD_HEADER_1 const String ssidRounter =  "Usa 3G folgado_2.4GHZ"; // nome da rede
+MOD_HEADER_1 const String passwordRounter =  "soentrabonito";     // senha
+MOD_HEADER_1 String Sended;                                       // dado enviado para cliente
+MOD_HEADER_1 WebServer *Server;                                   // ponteiro para classe server 
 
 /*===============================================================================*/
 // Sensor DHT11
 
-DHT_Unified DHT(DHT_PIN, DHTTYPE);  // classe do DHT
-sensor_t Sensor;                    // classe de um sensor da Adafruit (lib usada)
-String Temperature;                 // dado de temperatura
-String Humidity;                    // dado de humidade
+MOD_HEADER_1 DHT_Unified *DHT;                   // ponteiro para classe DHT
+MOD_HEADER_1 sensor_t Sensor;                    // classe de um sensor da Adafruit (lib usada)
+MOD_HEADER_1 String Temperature;                 // dado de temperatura
+MOD_HEADER_1 String Humidity;                    // dado de humidade
 
 /*===============================================================================*/
 // Display LCD1602
-LiquidCrystal_I2C lcd(CI_ADDR1, 16/*colunas*/, 2/*linhas*/); // Objeto lcd
+MOD_HEADER_1 LiquidCrystal_I2C *lcd;             // ponteiro para classe lcd
 
 /*===============================================================================*/
 // Funções do servidor
-
+void serverInit();
 void WiFiConnect();
 void handleBlink();
 void handleSubmit();
@@ -66,13 +75,13 @@ void sendData();
 
 /*===============================================================================*/
 // Funções do sensor
-
+void dhtInit();
 void setupDHT();
 void updateValueDHT();
 
 /*===============================================================================*/
 // Funções do LCD1602
-
+void lcdInit();
 void setupLCD();
 void updateValueLCD(String value);
 bool I2cAddrTest(uint8_t addr);
