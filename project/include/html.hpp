@@ -1,3 +1,10 @@
+/*
+ * Projeto: Comunicação WiFi para IoT
+ * Autor: Vitor Alexandre Garcia Vaz
+ * Descrição: Este arquivo contém a estrutura HTML da página para o projeto de comunicação WiFi.
+ * Data: 23/01/2025
+ */
+
 #ifndef HTML_H
 #define HTML_H
 

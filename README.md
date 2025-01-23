@@ -26,9 +26,10 @@ Este projeto é uma página web para controle e monitoramento de dispositivos Io
 ## Estrutura do Software do Projeto
 
 - `template/index.html`: Página principal com a interface do usuário
-- `project/include/html.h`: Estrutura HTML gerada pelo ESP32
+- `project/include/html.hpp`: Estrutura HTML gerada pelo ESP32
 - `project/src/main.cpp`: Código fonte principal para o ESP32
-- `project/include/header.h`: Arquivo header com definições, bibliotecas usadas e declaração de funções para ESP32
+- `project/include/lib.hpp`: Arquivo header com definições, bibliotecas usadas e declaração de funções para ESP32
+- `project/src/lib.cpp`: Implementação das funções para o ESP32
 - `project/platformio.ini`: Arquivo de configuração do PlatformIO
 
 ## Estrutura do Hardware do Projeto
@@ -40,7 +41,7 @@ Este projeto é uma página web para controle e monitoramento de dispositivos Io
         src="./template/circuit_image.png"
         width="600px"
         height="600px"  
-    >
+    />
 </p>
 
 ## Como Usar

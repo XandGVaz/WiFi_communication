@@ -1,11 +1,50 @@
-#define DEF_MOD_HEADER_1        // define usado para include guard
-#include "header.hpp"
+/*
+ * Projeto: Comunicação WiFi para IoT
+ * Autor: Vitor Alexandre Garcia Vaz
+ * Descrição: Este arquivo contém as implementações das funções para o projeto de comunicação WiFi.
+ * Data: 23/01/2025
+ */
+
+#define DEF_MOD_LIB        // define usado para include guard
+#include "lib.hpp"
 
 /*===============================================================================*/
+// Funções de GPIO
+
+// Configura pino de acendimento do led
+void setupGPIO(){
+  pinMode(PIN_LED, OUTPUT);
+}
+
+/*===============================================================================*/
+// Funções do servidor
 
 // Cria objeto server
 void serverInit(){
   Server = new WebServer(80);
+}
+
+// Conexão com rede WifFi
+void WiFiConnect(){
+    // Desconexão de uma rede anterior
+    WiFi.disconnect();
+
+    // Configura ESP32 como extação de WiFi sem desabilitar demais modos
+    WiFi.enableSTA(true);
+    delay(2000);
+
+    // Conexão com roteador
+    Serial.println(F("\n===================================="));
+    Serial.print("Connect with WiFI ");
+    WiFi.begin(ssidRounter, passwordRounter);
+    while(WiFi.status() != WL_CONNECTED){
+        Serial.print(".");
+        delay(100);
+    }
+
+    // Conexão concluída
+    Serial.print("\nConnect with IP addres: ");
+    Serial.println(WiFi.localIP());
 }
 
 // Lida com comandos de acendimento de led da página 
@@ -20,6 +59,8 @@ void handleBlink(){
 // Lida com comandos de submissão da paǵina
 void handleSubmit(){
     String received;
+
+    // Caso um dado (texto) tenha sido submetido, o mesmo é recebido no serial e no LCD1602
     if(Server->hasArg("clientMsg")){
       received = Server->arg("clientMsg");
       updateValueLCD(received);
@@ -35,11 +76,11 @@ void handleSubmit(){
 void handleRoot(){
 
   if(Server->method() == HTTP_POST){
-    // Caso algum botão tenha sido apertado
+    // Caso algum botão tenha sido apertado, lida com essa ação
     if(Server->hasArg("LED_ON") || Server->hasArg("LED_OFF"))
       handleBlink();
 
-    // Caso alguma mensagem tenha sido enviada
+    // Caso alguma mensagem tenha sido enviada, lida-se com esse envio
     if(Server->hasArg("clientMsg"))
       handleSubmit();
   }
@@ -64,14 +105,19 @@ void handleUpdateHum(){
   Server->send(200, "text/plain"/*texto normal*/, Humidity);
 }
 
+// Função que lida com as solicitações do cliente
+void handleClient(){
+  Server->handleClient();
+}
+
 // Criação do Server
 void createServer(){
-  Server->on("/", HTTP_GET ,handleRoot);               // lida com atualização de página
-  Server->on("/", HTTP_POST ,handleRoot);               // lida com atualização de página
-  Server->on("/received", HTTP_GET, handleUpdateReceived);     // lida com atualização de dado recebido pelo cliente
-  Server->on("/temp", HTTP_GET, handleUpdateTemp);     // lida com atualização da temperatura ambiente
-  Server->on("/hum", HTTP_GET ,handleUpdateHum);       // lida com atualização da humdiade do ambiente
-  Server->begin();                           // inicia server
+  Server->on("/", HTTP_GET ,handleRoot);                      // lida com atualização de página
+  Server->on("/", HTTP_POST ,handleRoot);                     // lida com atualização de página
+  Server->on("/received", HTTP_GET, handleUpdateReceived);    // lida com atualização de dado recebido pelo cliente e enviado pela ESP32
+  Server->on("/temp", HTTP_GET, handleUpdateTemp);            // lida com atualização da temperatura ambiente
+  Server->on("/hum", HTTP_GET ,handleUpdateHum);              // lida com atualização da humdiade do ambiente
+  Server->begin();                                            // inicia server
 
   // Avisa que server começou
   Serial.println("HTTP Server started!");
@@ -79,10 +125,6 @@ void createServer(){
   Serial.println("Chat:");
 }
 
-// Função que lida com as solicitações do cliente
-void handleClient(){
-  Server->handleClient();
-}
 
 // Função responsável por definir o dado (do monitor Serial) a ser enviado para o cliente
 void sendData(){ 
@@ -98,6 +140,8 @@ void sendData(){
 }
 
 /*===============================================================================*/
+// Funções do sensor DHT
+
 // Cria objeto DHT
 void dhtInit(){
   DHT = new DHT_Unified(DHT_PIN, DHTTYPE);
@@ -132,6 +176,8 @@ void updateValueDHT(){
 }
 
 /*===============================================================================*/
+// Funções do LCD1602
+
 // Cria objeto lcd
 void lcdInit(){
   lcd = new LiquidCrystal_I2C(CI_ADDR1, 16/*colunas*/, 2/*linhas*/);
@@ -169,8 +215,8 @@ void setupLCD(){
   lcd->backlight();
 }
 
+// Função que atualiza o valor presente no display, confome o texto passado por parâmetro
 void updateValueLCD(String value){
-
   // Limpa tela do LCD
   lcd->clear();
 
@@ -187,5 +233,4 @@ void updateValueLCD(String value){
   lcd->print("Usr: " + value.substring(0,11));
   lcd->setCursor(0,1);
   lcd->print(value.substring(11,27));
-
 }

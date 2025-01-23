@@ -1,3 +1,10 @@
+/*
+ * Projeto: Comunicação WiFi para IoT
+ * Autor: Vitor Alexandre Garcia Vaz
+ * Descrição: Este arquivo contém as definições de funções e protótipos para o projeto de comunicação WiFi.
+ * Data: 23/01/2025
+ */
+
 #ifndef HEADER_H
 #define HEADER_H
 
@@ -6,22 +13,24 @@
 
 // Utilização de funções da ArduinoIDE
 #include <Arduino.h>
+#include <Wire.h>               
 
 // Criação de servidor
 #include <WiFi.h>
 #include <WebServer.h>
-#ifdef DEF_MOD_HEADER_1
+
+// Página html do servidor, só declarada dentro da biblioteca
+#ifdef DEF_MOD_LIB
 #include "html.hpp"
 #endif
 
 // Uso do sensor DHT
-#include <Adafruit_Sensor.h>
+#include <Adafruit_Sensor.h>        // autor: adafruit
 #include <DHT.h>
 #include <DHT_U.h>
 
 // Uso do LCD1602
-#include <LiquidCrystal_I2C.h>  
-#include <Wire.h>               
+#include <LiquidCrystal_I2C.h>      // autor: marcoschwartz
 
 /*===============================================================================*/
 // Definições 
@@ -35,52 +44,56 @@
 #define CI_ADDR2 0x3F   // lcd1602 que usa PCF8574AT, endereço I2c é 0x3F
 
 // Include Guard para evitar múltipla declaração de variáveis globais
-#ifdef DEF_MOD_HEADER_1
-    #define MOD_HEADER_1 extern
+#ifdef DEF_MOD_LIB
+    #define MOD_LIB extern
 #else
-    #define MOD_HEADER_1
+    #define MOD_LIB
 #endif
 
 /*===============================================================================*/
 // Informações da rede WiFi transmitida pelo roteador
 
-MOD_HEADER_1 const String ssidRounter =  "Usa 3G folgado_2.4GHZ"; // nome da rede
-MOD_HEADER_1 const String passwordRounter =  "soentrabonito";     // senha
-MOD_HEADER_1 String Sended;                                       // dado enviado para cliente
-MOD_HEADER_1 WebServer *Server;                                   // ponteiro para classe server 
+MOD_LIB const String ssidRounter =  "Usa 3G folgado_2.4GHZ"; // nome da rede
+MOD_LIB const String passwordRounter =  "soentrabonito";     // senha
+MOD_LIB String Sended;                                       // dado enviado para cliente
+MOD_LIB WebServer *Server;                                   // ponteiro para classe server 
 
 /*===============================================================================*/
 // Sensor DHT11
 
-MOD_HEADER_1 DHT_Unified *DHT;                   // ponteiro para classe DHT
-MOD_HEADER_1 sensor_t Sensor;                    // classe de um sensor da Adafruit (lib usada)
-MOD_HEADER_1 String Temperature;                 // dado de temperatura
-MOD_HEADER_1 String Humidity;                    // dado de humidade
+MOD_LIB DHT_Unified *DHT;                   // ponteiro para classe DHT
+MOD_LIB sensor_t Sensor;                    // classe de um sensor da Adafruit (lib usada)
+MOD_LIB String Temperature;                 // dado de temperatura
+MOD_LIB String Humidity;                    // dado de humidade
 
 /*===============================================================================*/
 // Display LCD1602
-MOD_HEADER_1 LiquidCrystal_I2C *lcd;             // ponteiro para classe lcd
+MOD_LIB LiquidCrystal_I2C *lcd;             // ponteiro para classe lcd
 
 /*===============================================================================*/
-// Funções do servidor
+// Prototypes de GPIO
+void setupGPIO();
+
+/*===============================================================================*/
+// Prototypes do servidor
 void serverInit();
 void WiFiConnect();
 void handleBlink();
 void handleSubmit();
 void handleRoot();
 void handleUpdate();
-void createServer();
 void handleClient();
+void createServer();
 void sendData();
 
 /*===============================================================================*/
-// Funções do sensor
+// Prototypes do sensor DHT
 void dhtInit();
 void setupDHT();
 void updateValueDHT();
 
 /*===============================================================================*/
-// Funções do LCD1602
+// Prototypes do LCD1602
 void lcdInit();
 void setupLCD();
 void updateValueLCD(String value);

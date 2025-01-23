@@ -1,11 +1,18 @@
-#include "header.hpp"
+/*
+ * Projeto: Comunicação WiFi para IoT
+ * Autor: Vitor Alexandre Garcia Vaz
+ * Descrição: Este arquivo contém a função principal para o projeto de comunicação WiFi.
+ * Data: 23/01/2025
+ */
+
+#include "lib.hpp"
 
 /*===============================================================================*/
 
 void setup() {
 
   // Configura pino do led como saída do sistema
-  pinMode(PIN_LED, OUTPUT);
+  setupGPIO();
 
   // Configura sensor DHT
   setupDHT();
@@ -16,10 +23,10 @@ void setup() {
   // Configuração do monitor serial
   Serial.begin(115200);
 
-  // Conexão com rede WiFi
+  // Conexão com rede WiFi escolhida
   WiFiConnect();
 
-  // Criação do Server dentro da rede WiFi
+  // Criação do Server dentro da rede WiFi escolhida
   createServer();
 }
 
@@ -33,27 +40,4 @@ void loop() {
     sendData();  
   }
 
-}
-
-// Conexão com rede WifFi
-void WiFiConnect(){
-    // Desconexão de uma rede anterior
-    WiFi.disconnect();
-
-    // Configura ESP32 como extação de WiFi sem desabilitar demais modos
-    WiFi.enableSTA(true);
-    delay(2000);
-
-    // Conexão com roteador
-    Serial.println(F("\n===================================="));
-    Serial.print("Connect with WiFI ");
-    WiFi.begin(ssidRounter, passwordRounter);
-    while(WiFi.status() != WL_CONNECTED){
-        Serial.print(".");
-        delay(100);
-    }
-
-    // Conexão concluída
-    Serial.print("\nConnect with IP addres: ");
-    Serial.println(WiFi.localIP());
 }
