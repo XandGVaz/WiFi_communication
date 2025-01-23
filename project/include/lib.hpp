@@ -53,8 +53,8 @@
 /*===============================================================================*/
 // Informações da rede WiFi transmitida pelo roteador
 
-MOD_LIB const String ssidRounter =  "Usa 3G folgado_2.4GHZ"; // nome da rede
-MOD_LIB const String passwordRounter =  "soentrabonito";     // senha
+MOD_LIB const String ssidRounter =  "Nome da rede WiFi disponivel";          // nome da rede
+MOD_LIB const String passwordRounter =  "Senha da rede WiFi disponivel";     // senha
 MOD_LIB String Sended;                                       // dado enviado para cliente
 MOD_LIB WebServer *Server;                                   // ponteiro para classe server 
 
