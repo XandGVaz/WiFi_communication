@@ -68,15 +68,16 @@ MOD_LIB String Humidity;                    // dado de humidade
 
 /*===============================================================================*/
 // Display LCD1602
-MOD_LIB LiquidCrystal_I2C *lcd;             // ponteiro para classe lcd
+MOD_LIB LiquidCrystal_I2C *Lcd;             // ponteiro para classe lcd
 
 /*===============================================================================*/
-// Prototypes de GPIO
+// Prototypes gerais
 void setupGPIO();
+void setupMonitor();
 
 /*===============================================================================*/
 // Prototypes do servidor
-void serverInit();
+void setupServer();
 void WiFiConnect();
 void handleBlink();
 void handleSubmit();
@@ -88,13 +89,11 @@ void sendData();
 
 /*===============================================================================*/
 // Prototypes do sensor DHT
-void dhtInit();
 void setupDHT();
 void updateValueDHT();
 
 /*===============================================================================*/
 // Prototypes do LCD1602
-void lcdInit();
 void setupLCD();
 void updateValueLCD(String value);
 bool I2cAddrTest(uint8_t addr);

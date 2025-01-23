@@ -9,18 +9,23 @@
 #include "lib.hpp"
 
 /*===============================================================================*/
-// Funções de GPIO
+// Funções gerais
 
 // Configura pino de acendimento do led
 void setupGPIO(){
   pinMode(PIN_LED, OUTPUT);
 }
 
+// Configura monitor serial
+void setupMonitor(){
+  Serial.begin(115200);
+}
+
 /*===============================================================================*/
 // Funções do servidor
 
 // Cria objeto server
-void serverInit(){
+void setupServer(){
   Server = new WebServer(80);
 }
 
@@ -117,7 +122,7 @@ void createServer(){
   Server->on("/received", HTTP_GET, handleUpdateReceived);    // lida com atualização de dado recebido pelo cliente e enviado pela ESP32
   Server->on("/temp", HTTP_GET, handleUpdateTemp);            // lida com atualização da temperatura ambiente
   Server->on("/hum", HTTP_GET ,handleUpdateHum);              // lida com atualização da humdiade do ambiente
-  Server->begin();                                            // inicia server
+  Server->begin();                                            // inicia o server
 
   // Avisa que server começou
   Serial.println("HTTP Server started!");
@@ -142,13 +147,11 @@ void sendData(){
 /*===============================================================================*/
 // Funções do sensor DHT
 
-// Cria objeto DHT
-void dhtInit(){
-  DHT = new DHT_Unified(DHT_PIN, DHTTYPE);
-}
-
 // Função responsável por configurar o sensor DHT
 void setupDHT(){
+  // Criação do objeto DHT
+  DHT = new DHT_Unified(DHT_PIN, DHTTYPE);
+
   // Iniciação do sensor DHT
   DHT->begin();
   DHT->temperature().getSensor(&Sensor);
@@ -178,12 +181,6 @@ void updateValueDHT(){
 /*===============================================================================*/
 // Funções do LCD1602
 
-// Cria objeto lcd
-void lcdInit(){
-  lcd = new LiquidCrystal_I2C(CI_ADDR1, 16/*colunas*/, 2/*linhas*/);
-}
-
-
 // Função responssável por testar a conexão de um endereço (verificando se ele existe)
 bool I2CAddrTest(byte addr){
   // Começa transmissão de barramento com o endereço passado por parâmetro
@@ -199,38 +196,41 @@ bool I2CAddrTest(byte addr){
 
 // Configuração do display LCD1602
 void setupLCD(){
+  // Criação do objeto Lcd
+  Lcd = new LiquidCrystal_I2C(CI_ADDR1, 16/*colunas*/, 2/*linhas*/);
+
   // Barramento de dados + controle
   Wire.begin(SDA, SCL); // necessário para o funcionamento da biblioteca LiquidCrystal_I2C 
 
-  // Caso o endereço do CI não exista no lcd, então trocamos de endereço
+  // Caso o endereço do CI não exista no Lcd, então trocamos de endereço
   if(!I2CAddrTest(CI_ADDR1)){
-    delete lcd;
-    lcd = new LiquidCrystal_I2C(CI_ADDR2, 16, 2);
+    delete Lcd;
+    Lcd = new LiquidCrystal_I2C(CI_ADDR2, 16, 2);
   }
 
   // Iniciação do driver do LCD
-  lcd->init();
+  Lcd->init();
 
   // Abre luz de fundo do LCD
-  lcd->backlight();
+  Lcd->backlight();
 }
 
 // Função que atualiza o valor presente no display, confome o texto passado por parâmetro
 void updateValueLCD(String value){
   // Limpa tela do LCD
-  lcd->clear();
+  Lcd->clear();
 
-  // Seta a posição de impressão no lcd no início da primeira linha
-  lcd->setCursor(0,0);
+  // Seta a posição de impressão no Lcd no início da primeira linha
+  Lcd->setCursor(0,0);
 
   // Impressão de dado que cabe na primeira linha do LCD
   if(value.length() <= 10){         
-    lcd->print("Usr: " + value);
+    Lcd->print("Usr: " + value);
     return ;
   }
 
   // Impressão de dados que exigem o uso de duas linhas
-  lcd->print("Usr: " + value.substring(0,11));
-  lcd->setCursor(0,1);
-  lcd->print(value.substring(11,27));
+  Lcd->print("Usr: " + value.substring(0,11));
+  Lcd->setCursor(0,1);
+  Lcd->print(value.substring(11,27));
 }

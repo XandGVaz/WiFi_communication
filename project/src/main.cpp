@@ -7,12 +7,12 @@
 
 #include "lib.hpp"
 
-/*===============================================================================*/
-
 void setup() {
-
   // Configura pino do led como saída do sistema
   setupGPIO();
+
+  // Configura server
+  setupServer();
 
   // Configura sensor DHT
   setupDHT();
@@ -21,7 +21,7 @@ void setup() {
   setupLCD();
 
   // Configuração do monitor serial
-  Serial.begin(115200);
+  setupMonitor();
 
   // Conexão com rede WiFi escolhida
   WiFiConnect();
@@ -31,7 +31,6 @@ void setup() {
 }
 
 void loop() {
-
   // Verifica se há requisições de novos clientes e configura rotas adequadas
   handleClient();
 
