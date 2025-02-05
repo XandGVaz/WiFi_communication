@@ -89,6 +89,14 @@ Este projeto é uma página web para controle e monitoramento de dispositivos Io
     ```baseh
     http://192.168.0.16/
     ```
+## Uso do Monitor Serial
+
+### Recepção e envio de mensagens
+O monitor serial é útil para acompanhar as mensagens impressas pelo ESP32, como a inicialização do servidor e as mensagens enviadas e recebidas pelo microcontrolador. 
+
+### Implementação no projeto
+No código, a função [`setupMonitor`](project/src/lib.cpp#L20) (definida em [lib.cpp](project/src/lib.cpp)) inicia a comunicação serial com uma taxa de 115200.
+
 
 ## Exemplos de Uso
 
@@ -138,4 +146,4 @@ Essas bibliotecas são essenciais para o funcionamento do projeto, permitindo a 
 
 ## Licença
 
-Este projeto está licenciado sob a Licença MIT. Veja o arquivo [LICENSE](http://_vscodecontentref_/0) para mais detalhes.
+Este projeto está licenciado sob a Licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
