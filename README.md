@@ -23,6 +23,18 @@ Este projeto é uma página web para controle e monitoramento de dispositivos Io
     />
 </p>
 
+## Tecnologias Usadas para a Interface IOT
+
+A interface IOT deste projeto foi desenvolvida utilizando as seguintes tecnologias:
+
+- **HTML**: Utilizado para estruturar a página web. A estrutura HTML define os elementos da interface, como botões, campos de texto e seções de exibição de dados.
+- **CSS**: Utilizado para estilizar a página web, tornando-a visualmente atraente e responsiva. O CSS define o layout, cores, fontes e outros aspectos visuais da interface.
+- **JavaScript**: Utilizado para adicionar interatividade à página web. O JavaScript é responsável por atualizar os dados de temperatura, umidade e mensagens em tempo real, além de enviar comandos para o ESP32.
+
+### Implementação
+
+A estrutura HTML, CSS e JavaScript é gerada pelo ESP32 e enviada para o cliente. O código HTML, CSS e JavaScript está embutido dentro do arquivo `project/include/html.hpp`, na função `getPage()`. Esta função retorna uma string contendo todo o código necessário para a interface IOT, que é servida pelo ESP32 quando o cliente acessa a página web.
+
 ## Estrutura do Software do Projeto
 
 - `template/index.html`: Página principal com a interface do usuário
