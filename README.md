@@ -33,7 +33,9 @@ A interface IOT deste projeto foi desenvolvida utilizando as seguintes tecnologi
 
 ### Implementação
 
-A estrutura HTML, CSS e JavaScript é gerada pelo ESP32 e enviada para o cliente. O código HTML, CSS e JavaScript está embutido dentro do arquivo `project/include/html.hpp`, na função [`getPage`](project/include/html.hpp#L12). Esta função retorna uma string contendo todo o código necessário para a interface IOT, que é servida pelo ESP32 quando o cliente acessa a página web.
+A estrutura HTML, CSS e JavaScript é gerada pelo ESP32 e enviada para o cliente. O código HTML, CSS e JavaScript está embutido dentro do arquivo `html.hpp`, na função [`getPage`](project/include/html.hpp#L12). Esta função retorna uma string contendo todo o código necessário para a interface IOT, que é servida pelo ESP32 quando o cliente acessa a página web.
+
+O mesmo arquivo HTML enviado pelo servidor pode ser visualizado em [index.html](template/index.html), já com JavaScript e CSS internos.
 
 ## Estrutura do Software do Projeto
 
