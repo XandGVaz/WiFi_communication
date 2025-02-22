@@ -33,16 +33,16 @@ A interface IOT deste projeto foi desenvolvida utilizando as seguintes tecnologi
 
 ### Implementação
 
-A estrutura HTML, CSS e JavaScript é gerada pelo ESP32 e enviada para o cliente. O código HTML, CSS e JavaScript está embutido dentro do arquivo `project/include/html.hpp`, na função `getPage()`. Esta função retorna uma string contendo todo o código necessário para a interface IOT, que é servida pelo ESP32 quando o cliente acessa a página web.
+A estrutura HTML, CSS e JavaScript é gerada pelo ESP32 e enviada para o cliente. O código HTML, CSS e JavaScript está embutido dentro do arquivo `project/include/html.hpp`, na função [`getPage()`](project/include/html.hpp). Esta função retorna uma string contendo todo o código necessário para a interface IOT, que é servida pelo ESP32 quando o cliente acessa a página web.
 
 ## Estrutura do Software do Projeto
 
-- `template/index.html`: Página principal com a interface do usuário
-- `project/include/html.hpp`: Estrutura HTML gerada pelo ESP32
-- `project/src/main.cpp`: Código fonte principal para o ESP32
-- `project/include/lib.hpp`: Arquivo header com definições, bibliotecas usadas e declaração de funções para ESP32
-- `project/src/lib.cpp`: Implementação das funções para o ESP32
-- `project/platformio.ini`: Arquivo de configuração do PlatformIO
+- `template/index.html`: Página principal com a interface do usuário.
+- `project/include/html.hpp`: Estrutura HTML gerada pelo ESP32.
+- `project/src/main.cpp`: Código fonte principal para o ESP32.
+- `project/include/lib.hpp`: Arquivo header com definições, bibliotecas usadas e declaração de funções para ESP32.
+- `project/src/lib.cpp`: Implementação das funções para o ESP32.
+- `project/platformio.ini`: Arquivo de configuração do PlatformIO.
 
 ## Estrutura do Hardware do Projeto
 
@@ -107,7 +107,7 @@ A estrutura HTML, CSS e JavaScript é gerada pelo ESP32 e enviada para o cliente
 O monitor serial é útil para acompanhar as mensagens impressas pelo ESP32, como a inicialização do servidor e as mensagens enviadas e recebidas pelo microcontrolador. 
 
 ### Implementação no projeto
-No código, a função [`setupMonitor`](project/src/lib.cpp#L20) (definida em [lib.cpp](project/src/lib.cpp)) inicia a comunicação serial com uma taxa de 115200.
+No código, a função [`setupMonitor()`](project/src/lib.cpp#L20) (definida em [lib.cpp](project/src/lib.cpp)) inicia a comunicação serial com uma taxa de 115200.
 
 
 ## Exemplos de Uso
