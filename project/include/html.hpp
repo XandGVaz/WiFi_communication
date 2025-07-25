@@ -8,6 +8,8 @@
 #ifndef HTML_H
 #define HTML_H
 
+#include <Arduino.h>
+
 // Função que retorna String que contem a estrutura HTML da página (incluindo CSS e JavaScript internos)
 String getPage(){
     String page = "<!DOCTYPE html>";
@@ -17,10 +19,10 @@ String getPage(){
     page += "<meta http-equiv='refresh'/>";
     page += "<style media='screen' type='text/css'>";
     page += "html{display:inline-block; margin:10px;}";
-    page += "body{background-image: linear-gradient(45deg, rgb(235, 247, 245), rgb(230, 241, 243));}";
+    page += "body{background-image: linear-gradient(45deg, rgb(235, 247, 245), rgb(235, 247, 245));}";
     page += "h1 {text-align: center;font-size: 48px;font-weight: 700;font-family: 'Roboto', sans-serif;color: #2c3e50;margin-top: 20px;margin-bottom: 20px;text-transform: uppercase;letter-spacing: 2px}";
     page += "h2 {font-size: 35px;font-family: 'Verdana', sans-serif;color: #555;margin-top: 15px;margin-bottom: 15px;text-align: left}";
-    page += ".Interactive{font-size: 40px;background-image: linear-gradient(45deg, rgb(242, 248, 230), rgb(212, 226, 245));display: flex;height: auto; flex-flow: column wrap;justify-content: center;align-items: center;text-align: center;margin: 1% 0% 1% 0%; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);padding: 50px 0px 50px 0px;}";
+    page += ".Interactive{font-size: 40px;background-image: linear-gradient(45deg, rgb(235, 247, 245), rgb(235, 247, 245));display: flex;height: auto; flex-flow: column wrap;justify-content: center;align-items: center;text-align: center;margin: 1% 0% 1% 0%; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);padding: 50px 0px 50px 0px;}";
     page += ".Interactive input{width: 800px; height: 90px; font-size: 40px; text-align: center}";
     page += ".Interactive h3{font-size: 30px;justify-content: left;}";
     page += ".ledButton {font-size: 40px;width: 300px;height: 100px;margin-top: 10px;border-radius: 50px}";

@@ -2,11 +2,28 @@
  * Projeto: Comunicação WiFi para IoT
  * Autor: Vitor Alexandre Garcia Vaz
  * Descrição: Este arquivo contém a função principal para o projeto de comunicação WiFi.
- * Data: 23/01/2025
+ * Data: 25/07/2025
  */
 
-#include "lib.hpp"
+#include "server.hpp"
+#include "dht.hpp"
+#include "display.hpp"
 
+/*===============================================================================*/
+// Funções gerais
+
+// Configura pino de acendimento do led
+void setupGPIO(){
+  pinMode(PIN_LED, OUTPUT);
+}
+
+// Configura monitor serial
+void setupMonitor(){
+  Serial.begin(115200);
+}
+
+/*===============================================================================*/
+// Configuração do microcontrolador
 void setup() {
   // Configura pino do led como saída do sistema
   setupGPIO();
@@ -17,8 +34,8 @@ void setup() {
   // Configura sensor DHT
   setupDHT();
 
-  // Configura LCD1602
-  setupLCD();
+  // Configura Display1602
+  setupDisplay();
 
   // Configuração do monitor serial
   setupMonitor();
@@ -30,7 +47,10 @@ void setup() {
   createServer();
 }
 
+/*===============================================================================*/
+// Ciclo de funcionamento
 void loop() {
+
   // Verifica se há requisições de novos clientes e configura rotas adequadas
   handleClient();
 
@@ -38,5 +58,5 @@ void loop() {
   if(Serial.available()){
     sendData();  
   }
-
+  
 }

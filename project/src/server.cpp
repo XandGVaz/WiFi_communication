@@ -1,25 +1,14 @@
 /*
  * Projeto: Comunicação WiFi para IoT
  * Autor: Vitor Alexandre Garcia Vaz
- * Descrição: Este arquivo contém as implementações das funções para o projeto de comunicação WiFi.
- * Data: 23/01/2025
+ * Descrição: Este arquivo contém a implementação da criação e administração do server .
+ * Data: 25/07/2025
  */
 
-#define DEF_MOD_LIB        // define usado para include guard
-#include "lib.hpp"
-
-/*===============================================================================*/
-// Funções gerais
-
-// Configura pino de acendimento do led
-void setupGPIO(){
-  pinMode(PIN_LED, OUTPUT);
-}
-
-// Configura monitor serial
-void setupMonitor(){
-  Serial.begin(115200);
-}
+#include "server.hpp"
+#include "dht.hpp"
+#include "display.hpp"
+#include "html.hpp"
 
 /*===============================================================================*/
 // Funções do servidor
@@ -65,10 +54,10 @@ void handleBlink(){
 void handleSubmit(){
     String received;
 
-    // Caso um dado (texto) tenha sido submetido, o mesmo é recebido no serial e no LCD1602
+    // Caso um dado (texto) tenha sido submetido, o mesmo é recebido no serial e no Display1602
     if(Server->hasArg("clientMsg")){
       received = Server->arg("clientMsg");
-      updateValueLCD(received);
+      updateValueDisplay(received);
 
       Serial.println(F("------------------------------------"));
       Serial.print("Received: ");
@@ -142,95 +131,4 @@ void sendData(){
   // Imprime dado no monitor serial
   Serial.println(F("------------------------------------"));
   Serial.println("Sended: " + Sended);
-}
-
-/*===============================================================================*/
-// Funções do sensor DHT
-
-// Função responsável por configurar o sensor DHT
-void setupDHT(){
-  // Criação do objeto DHT
-  DHT = new DHT_Unified(DHT_PIN, DHTTYPE);
-
-  // Iniciação do sensor DHT
-  DHT->begin();
-  DHT->temperature().getSensor(&Sensor);
-  DHT->humidity().getSensor(&Sensor);
-}
-
-// Função que lê informações do sensor e atualizar dados de temperatura e umidade
-void updateValueDHT(){
-  
-  sensors_event_t event;                          // evento de sensoriamento
-  float temperature, humidity;                    // armazena valores numéricos
-
-  // Obtenção da temperatura
-  DHT->temperature().getEvent(&event);
-  if(isnan(event.temperature)) temperature = -1;  // verifica erros
-  else temperature = event.temperature;
-
-  // Obtenção da umidade
-  DHT->humidity().getEvent(&event);
-  if(isnan(event.relative_humidity)) humidity = -1;// verifica erros
-  else humidity = event.temperature;
-
-  // Atualização dos dados de temperatura e umidade
-  Temperature = String(temperature); Humidity = String(humidity);
-}
-
-/*===============================================================================*/
-// Funções do LCD1602
-
-// Função responssável por testar a conexão de um endereço (verificando se ele existe)
-bool I2CAddrTest(byte addr){
-  // Começa transmissão de barramento com o endereço passado por parâmetro
-  Wire.beginTransmission(addr);
-  
-  // Se a transmissão ocorrer automaticamente, o endereço existe
-  if(Wire.endTransmission() == 0);
-    return true;
-  
-  // Caso contrário (demorou mais tempo para término da transmissão), o endereço não existe
-  return false;
-}
-
-// Configuração do display LCD1602
-void setupLCD(){
-  // Criação do objeto Lcd
-  Lcd = new LiquidCrystal_I2C(CI_ADDR1, 16/*colunas*/, 2/*linhas*/);
-
-  // Barramento de dados + controle
-  Wire.begin(SDA, SCL); // necessário para o funcionamento da biblioteca LiquidCrystal_I2C 
-
-  // Caso o endereço do CI não exista no Lcd, então trocamos de endereço
-  if(!I2CAddrTest(CI_ADDR1)){
-    delete Lcd;
-    Lcd = new LiquidCrystal_I2C(CI_ADDR2, 16, 2);
-  }
-
-  // Iniciação do driver do LCD
-  Lcd->init();
-
-  // Abre luz de fundo do LCD
-  Lcd->backlight();
-}
-
-// Função que atualiza o valor presente no display, confome o texto passado por parâmetro
-void updateValueLCD(String value){
-  // Limpa tela do LCD
-  Lcd->clear();
-
-  // Seta a posição de impressão no Lcd no início da primeira linha
-  Lcd->setCursor(0,0);
-
-  // Impressão de dado que cabe na primeira linha do LCD
-  if(value.length() <= 10){         
-    Lcd->print("Usr: " + value);
-    return ;
-  }
-
-  // Impressão de dados que exigem o uso de duas linhas
-  Lcd->print("Usr: " + value.substring(0,11));
-  Lcd->setCursor(0,1);
-  Lcd->print(value.substring(11,27));
 }
