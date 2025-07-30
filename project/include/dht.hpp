@@ -22,18 +22,18 @@
 
 /*===============================================================================*/
 // Include Guard para evitar múltipla declaração de variáveis globais
-#ifdef DEF_MOD_DISPLAY
-    #define MOD_DISPLAY extern
+#ifdef DEF_MOD_DHT
+    #define MOD_DHT extern
 #else
-    #define MOD_DISPLAY
+    #define MOD_DHT
 #endif
 
 /*===============================================================================*/
 // Sensor DHT11
-MOD_DISPLAY DHT_Unified *DHT;                   // ponteiro para classe DHT
-MOD_DISPLAY sensor_t Sensor;                    // classe de um sensor da Adafruit (lib usada)
-MOD_DISPLAY String Temperature;                 // dado de temperatura
-MOD_DISPLAY String Humidity;                    // dado de humidade
+MOD_DHT DHT_Unified *DHT;                   // ponteiro para classe DHT
+MOD_DHT sensor_t Sensor;                    // classe de um sensor da Adafruit (lib usada)
+MOD_DHT String Temperature;                 // dado de temperatura
+MOD_DHT String Humidity;                    // dado de humidade
 
 /*===============================================================================*/
 // Prototypes do sensor DHT

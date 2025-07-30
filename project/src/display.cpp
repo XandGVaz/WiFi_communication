@@ -4,7 +4,7 @@
  * Descrição: Este arquivo contém a implementação de utilização do display.
  * Data: 25/07/2025
  */
-
+#define DEF_MOD_DISPLAY
 #include "display.hpp"
 
 /*===============================================================================*/

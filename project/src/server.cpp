@@ -5,8 +5,11 @@
  * Data: 25/07/2025
  */
 
+#define DEF_MOD_SERVER
 #include "server.hpp"
+#define DEF_MOD_DHT
 #include "dht.hpp"
+#define DEF_MOD_DISPLAY
 #include "display.hpp"
 #include "html.hpp"
 

@@ -30,7 +30,7 @@ String getPage(){
     page += ".submitButton{font-size: 20px;width: 150px;height: 50px;margin-top: 10px;border-radius: 50px}";
     page += ".submitButton:hover{background-color: black;color: white;}";
     page += "#received {background-color: white;width: 800px; text-align: center;height: 90px;border: 1px solid rgb(33, 33, 37); text-align: center;}";
-    page += ".Evironment{background-image:linear-gradient(45deg, rgb(242, 248, 230), rgb(212, 226, 245));box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);padding: 50px 0px 50px 0px;display: flex;flex-flow: row nowrap;justify-content: center;padding: 5px}";
+    page += ".Evironment{background-image:linear-gradient(45deg, rgb(235, 247, 245), rgb(235, 247, 245));box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);padding: 50px 0px 50px 0px;display: flex;flex-flow: row nowrap;justify-content: center;padding: 5px}";
     page += ".Evironment .Interactive{background-image: linear-gradient(45deg, white, rgb(234, 240, 248)); margin: 20px 40px 20px 40px; padding: 2% 5% 2% ; width: 30%}";
     page += ".Evironment .Interactive h3{font-size: 65%;}";
     page += ".Evironment .Interactive:hover{opacity: 70%;}";
