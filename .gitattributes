@@ -1,0 +1,2 @@
+*.hpp linguist-detectable=true
+include/html.hpp linguist-language=HTML
