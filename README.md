@@ -150,14 +150,6 @@ As seguintes bibliotecas foram utilizadas no projeto e estão incluídas no arqu
 
 Essas bibliotecas são essenciais para o funcionamento do projeto, permitindo a comunicação WiFi, controle de LEDs, monitoramento de temperatura e umidade, e exibição de mensagens no display LCD1602.
 
-## Contribuição
-
-1. Faça um fork do projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/nova-feature`)
-3. Commit suas mudanças (`git commit -am 'Adiciona nova feature'`)
-4. Faça um push para a branch (`git push origin feature/nova-feature`)
-5. Abra um Pull Request
-
 ## Licença
 
 Este projeto está licenciado sob a Licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
