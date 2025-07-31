@@ -2,7 +2,7 @@
  * Projeto: Comunicação WiFi para IoT
  * Autor: Vitor Alexandre Garcia Vaz
  * Descrição: Este arquivo contém a implementação da criação e administração do server .
- * Data: 25/07/2025
+ * Data: 31/07/2025
  */
 
 #define DEF_MOD_SERVER
@@ -11,6 +11,7 @@
 #include "dht.hpp"
 #define DEF_MOD_DISPLAY
 #include "display.hpp"
+#include "light.hpp"
 #include "html.hpp"
 
 /*===============================================================================*/
@@ -44,13 +45,13 @@ void WiFiConnect(){
     Serial.println(WiFi.localIP());
 }
 
-// Lida com comandos de acendimento de led da página 
-void handleBlink(){
+// Lida com comandos de acendimento de luz da página 
+void handleLight(){
   if(Server->arg("LED_ON") == "on")
-      digitalWrite(PIN_LED, HIGH);
+    lightOn();
 
   if(Server->arg("LED_OFF") == "off")
-      digitalWrite(PIN_LED, LOW);
+    lightOff();
 }
 
 // Lida com comandos de submissão da paǵina
@@ -75,7 +76,7 @@ void handleRoot(){
   if(Server->method() == HTTP_POST){
     // Caso algum botão tenha sido apertado, lida com essa ação
     if(Server->hasArg("LED_ON") || Server->hasArg("LED_OFF"))
-      handleBlink();
+      handleLight();
 
     // Caso alguma mensagem tenha sido enviada, lida-se com esse envio
     if(Server->hasArg("clientMsg"))

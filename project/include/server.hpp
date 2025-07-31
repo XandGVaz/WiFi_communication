@@ -23,9 +23,6 @@
 #include "html.hpp"
 #endif
 
-// Pino de led para verificações
-#define PIN_LED 2
-
 // Include Guard para evitar múltipla declaração de variáveis globais
 #ifdef DEF_MOD_SERVER
     #define MOD_SERVER extern
@@ -44,7 +41,7 @@ MOD_SERVER WebServer *Server;                                   // ponteiro para
 // Prototypes do servidor
 void setupServer();
 void WiFiConnect();
-void handleBlink();
+void handleLight();
 void handleSubmit();
 void handleRoot();
 void handleUpdate();
