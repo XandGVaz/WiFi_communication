@@ -9,7 +9,6 @@
 #include "dht.hpp"
 #include "display.hpp"
 #include "freertos/FreeRTOS.h"
-#include "freertos/task.h"
 
 /*===============================================================================*/
 // Funções gerais
