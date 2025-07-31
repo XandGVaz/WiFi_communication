@@ -10,9 +10,11 @@
 
 #include <Arduino.h>
 
-// Função que retorna String que contem a estrutura HTML da página (incluindo CSS e JavaScript internos)
-String getPage(){
-    String page = String(R"(
+/* 
+    * String que contem a estrutura HTML da página (incluindo CSS e JavaScript internos)
+    *PROGMEN: garante que a string seja armazenada na memória flash em vez da memória RAM
+    */
+const char htmlPage[] PROGMEM = R"(
         <!DOCTYPE html>
         <html lan="en-EN">
             <head>
@@ -200,14 +202,12 @@ String getPage(){
                         xhr.onreadystatechange = function(){                // cria função para ser chamada quando o estado de requisição mudar 
                             if(xhr.readyState == 4 && xhr.status == 200){   // verifica se a requisição foi completada e bem sucedida
                                 console.log('Log submit successfully');     // imprime no console que a requisição foi bem sucedida
-                                document.querySelector('.submitButton').disabled = true; // Desabilita o botão
+                                document.getElementById('msgForm').reset(); // reseta todo o formulário
                             }
                         };
                         let msgForm = new FormData(document.getElementById('msgForm')); // cria um formulário com os dados do formulário com a id msgForm
-                        xhr.send(new URLSearchParams(msgForm).toString());              // envia a requisição com os dados do formulário
-                        
-                        document.getElementById('msgForm').querySelector('input[type="text"]').value = '';  // Limpa o campo de texto
-                        document.querySelector('.submitButton').disabled = false;                           // Habilita o botão
+                        xhr.send(new URLSearchParams(msgForm).toString());              // envia a requisição com os dados do formulário                        
+                        document.querySelector('.submitButton').disabled = false; // Habilita o botão
                     }
                     
                     // Script realizado a cada 1 segundo 
@@ -245,9 +245,6 @@ String getPage(){
                 <div class="Interactive"><h3>Received</h3><p id="received"></p></div>
             </body> 
         </html>
-    )");
-
-    return page;
-}
+)";
 
 #endif

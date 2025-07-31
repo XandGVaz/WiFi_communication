@@ -83,7 +83,7 @@ void handleRoot(){
       handleSubmit();
   }
 
-  Server->send(200, "text/html"/*texto do tipo html*/, getPage());
+  Server->send(200, "text/html"/*texto do tipo html*/, htmlPage);
 }
 
 // Função que atualiza dados enviados do servidor para o cliente
