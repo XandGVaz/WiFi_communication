@@ -2,8 +2,11 @@
  * Projeto: Comunicação WiFi para IoT
  * Autor: Vitor Alexandre Garcia Vaz
  * Descrição: Este arquivo contém a estrutura HTML da página para o projeto de comunicação WiFi.
- * Data: 23/01/2025
+ * Data: 31/07/2025
  */
+
+// -*- mode: html -*-
+// vim: syntax=html
 
 #ifndef HTML_H
 #define HTML_H
@@ -12,7 +15,8 @@
 
 /* 
     * String que contem a estrutura HTML da página (incluindo CSS e JavaScript internos)
-    *PROGMEN: garante que a string seja armazenada na memória flash em vez da memória RAM
+    * PROGMEM: garante que a string seja armazenada na memória flash em vez da memória RAM
+    * @linguist HTML
     */
 const char htmlPage[] PROGMEM = R"=====(
 
