@@ -5,9 +5,6 @@
  * Data: 31/07/2025
  */
 
-// -*- mode: html -*-
-// vim: syntax=html
-
 #ifndef HTML_H
 #define HTML_H
 
