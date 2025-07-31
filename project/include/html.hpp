@@ -14,11 +14,14 @@
     * String que contem a estrutura HTML da página (incluindo CSS e JavaScript internos)
     *PROGMEN: garante que a string seja armazenada na memória flash em vez da memória RAM
     */
-const char htmlPage[] PROGMEM = R"====(
+const char htmlPage[] PROGMEM = R"=====(
+
 <!DOCTYPE html>
 <html lan="en-EN">
+
     <head>
         <meta charset="UTF-8" />
+
         <style media="screen" type="text/css">
             html {
             display: inline-block;
@@ -143,6 +146,7 @@ const char htmlPage[] PROGMEM = R"====(
             }
             }
         </style>
+
         <script>
             // Função que atualiza campo de dados recebidos do servidor
             function updateReceived(){
@@ -216,8 +220,10 @@ const char htmlPage[] PROGMEM = R"====(
             setInterval(updateHumidity, 1000);
         </script> 
     </head> 
+
     <body> 
         <h1> IOT Page </h1>
+
         <h2>Light control</h2>
         <div class="Interactive">
             <form action="/" method="post">
@@ -225,13 +231,17 @@ const char htmlPage[] PROGMEM = R"====(
                 <p><button class="ledButton" type="submit" name="LED_OFF" value="off">OFF</button></p>
             </form>
         </div>
+
         <br><br>
+
         <h2>Evironment</h2>
         <div class="Evironment">
             <div class="Interactive"><h3>Temperature</h3><p id="temperature"></p></div>
             <div class="Interactive"><h3>Humidity</h3><p id="humidity"></p></div>
         </div> 
+
         <br><br>
+
         <h2>Messages for MCU</h2>
         <div class="Interactive">
             <form id="msgForm" onsubmit="sendMsg(event) ">
@@ -240,12 +250,16 @@ const char htmlPage[] PROGMEM = R"====(
                 <p><button class="submitButton" type="submit">Send</button></p>
             </form>
         </div>
+
         <br><br>
+
         <h2>Messages from MCU</h2>
         <div class="Interactive"><h3>Received</h3><p id="received"></p></div>
     </body> 
 </html>
 
-)====";
+
+
+)=====";
 
 #endif
