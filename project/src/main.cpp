@@ -53,6 +53,13 @@ void setup() {
     while(1);
   }
 
+  xQueueLightMode = xQueueCreate(2, sizeof(uint8_t));
+  if(xQueueLightMode == NULL){
+    Serial.println(F("------------------------------------"));
+    Serial.print("Erro na criação da fila de estados da luz");
+    while(1);
+  }
+
   // Criação de task de tratamento de requisições do client
   xTaskCreatePinnedToCore(vTaskClient, "TASK_CLIENT", configMINIMAL_STACK_SIZE + 4096 , NULL, 4, &xHandleTaskClient, APP_CPU_NUM);
   if(xHandleTaskClient == NULL){
@@ -85,6 +92,13 @@ void setup() {
     while(1);
   }
 
+  // Criação de task de definição do estado da luz
+  xTaskCreatePinnedToCore(vTaskLightMode, "TASK_LIGHT_MODE", configMINIMAL_STACK_SIZE + 4096, NULL, 3, &xHandleTaskLightMode, PRO_CPU_NUM);
+  if(xHandleTaskUpdateHumidityDHT == NULL){
+    Serial.println(F("------------------------------------"));
+    Serial.print("Erro na criação da TASK_LIGHT_MODE");
+    while(1);
+  }
 }
 
 void loop() {
@@ -150,5 +164,24 @@ void vTaskUpdateHumidityDHT(void *pvParameters){
 
     // Bloqueio da task por 500ms
     vTaskDelay(pdMS_TO_TICKS(500));
+  }
+}
+
+// Atualização do estado da luz
+void vTaskLightMode(void *pvParameters){
+
+  uint8_t state;
+
+  while(1){
+
+    // Aguarda (bloqueada) o recebimento do novo estado da luz
+    xQueueReceive(xQueueLightMode, &state, portMAX_DELAY);
+
+    // Definição do novo estado da luz
+    if(state) lightMode(LIGHT_ON);
+    else lightMode(LIGHT_OFF);
+
+    // Bloqueio da task por 50ms
+    vTaskDelay(pdMS_TO_TICKS(50));
   }
 }

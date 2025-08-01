@@ -17,9 +17,23 @@
 #define PIN_LIGHT 2
 
 /*===============================================================================*/
+// Includ Guard para manipulação de variáveis e tipos
+#ifdef DEF_MOD_LIGHT
+    #define MOD_LIGHT extern
+#else
+    #define MOD_LIGHT
+#endif
+
+/*===============================================================================*/
+// Enumeração para os possíveis estados da luz
+typedef enum{
+    LIGHT_OFF = 0U,
+    LIGHT_ON = 1U
+}light_state_t;
+
+/*===============================================================================*/
 // Prototypes das funções de iluminação
-void setupLight();  // configura pino de ativação da iluminação
-void lightOn();     // ativação da iluminação
-void lightOff();    // desativação da iluminação
+void setupLight();                   // configura pino de ativação da iluminação
+void lightMode(light_state_t state); // definição do estadom da luz (ligada/desligada)
 
 #endif

@@ -28,11 +28,13 @@ MOD_FREERTOS xTaskHandle xHandleTaskClient;               // task tratamento de 
 MOD_FREERTOS xTaskHandle xHandleTaskSendData;             // task atualização de mensagem
 MOD_FREERTOS xTaskHandle xHandleTaskUpdateTemperatureDHT; // task atualização de temperatura
 MOD_FREERTOS xTaskHandle xHandleTaskUpdateHumidityDHT;    // task atualização de umidade
+MOD_FREERTOS xTaskHandle xHandleTaskLightMode;            // task de modo da luz
 
 /*===============================================================================*/
 // Handles das filas
 MOD_FREERTOS xQueueHandle xQueueTemperatureDHT;   // fila de dados de temperatura 
 MOD_FREERTOS xQueueHandle xQueueHumidityDHT;      // fila de dados de umidade 
+MOD_FREERTOS xQueueHandle xQueueLightMode;      // fila de estados da luz
 
 /*===============================================================================*/
 // Prototypes das tasks
@@ -40,6 +42,7 @@ void vTaskClient(void *pvParameters);               // task tratamento de client
 void vTaskSendData(void *pvParameters);             // task atualização de mensagem
 void vTaskUpdateTemperatureDHT(void *pvParameters); // task atualização de temperatura
 void vTaskUpdateHumidityDHT(void *pvParameters);    // task atualização de umidade
+void vTaskLightMode(void *pvParameters);            // task de modo da luz
 
 
 

@@ -2,7 +2,7 @@
  * Projeto: Comunicação WiFi para IoT
  * Autor: Vitor Alexandre Garcia Vaz
  * Descrição: Este arquivo contém a implementação da iluminação controlada pelo usuário .
- * Data: 31/07/2025
+ * Data: 01/08/2025
  */
 
 #include "light.hpp"
@@ -15,12 +15,8 @@ void setupLight(){
   pinMode(PIN_LIGHT, OUTPUT);
 }
 
-// Ativação da iluminação
-void lightOn(){
-    digitalWrite(PIN_LIGHT, HIGH);
-}     
-
-// Desativação da iluminação
-void lightOff(){
-    digitalWrite(PIN_LIGHT, LOW);
-}    
+// Definição do estado da luz (ligada/desligada)
+void lightMode(light_state_t state){
+  if(state == LIGHT_ON) digitalWrite(PIN_LIGHT, HIGH);  // ativação da iluminação
+  else digitalWrite(PIN_LIGHT, LOW);                    // desativação da iluminação
+}

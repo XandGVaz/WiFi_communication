@@ -5,18 +5,15 @@
  * Data: 01/08/2025
  */
 
-// Include Guards para inclusão de headers
+// Include Guards para inclusão de headers sem múltipla definição
 #define DEF_MOD_SERVER
-#define DEF_MOD_DHT
 #define DEF_MOD_DISPLAY
 #define DEF_MOD_FREERTOS
 
 // Inclusão de header
 #include "server.hpp"
-#include "dht.hpp"
 #include "display.hpp"
 #include "freeRTOSVariables.hpp"
-#include "light.hpp"
 #include "html.hpp"
 
 /*===============================================================================*/
@@ -52,11 +49,22 @@ void WiFiConnect(){
 
 // Lida com comandos de acendimento de luz da página 
 void handleLight(){
-  if(Server->arg("LED_ON") == "on")
-    lightOn();
 
-  if(Server->arg("LED_OFF") == "off")
-    lightOff();
+  // Estado da luz
+  uint8_t state;
+  
+  // Requisição para acendimento da luz detectada
+  if(Server->arg("LED_ON") == "on"){
+    state = 1;
+    xQueueSend(xQueueLightMode, &state, portMAX_DELAY);
+  }
+  
+  // Requisição para desativação da luz detectada
+  if(Server->arg("LED_OFF") == "off"){
+    state = 0;
+    xQueueSend(xQueueLightMode, &state, portMAX_DELAY);
+  }
+
 }
 
 // Lida com comandos de submissão da paǵina
