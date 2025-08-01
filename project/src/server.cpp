@@ -2,15 +2,20 @@
  * Projeto: Comunicação WiFi para IoT
  * Autor: Vitor Alexandre Garcia Vaz
  * Descrição: Este arquivo contém a implementação da criação e administração do server .
- * Data: 31/07/2025
+ * Data: 01/08/2025
  */
 
+// Include Guards para inclusão de headers
 #define DEF_MOD_SERVER
-#include "server.hpp"
 #define DEF_MOD_DHT
-#include "dht.hpp"
 #define DEF_MOD_DISPLAY
+#define DEF_MOD_FREERTOS
+
+// Inclusão de header
+#include "server.hpp"
+#include "dht.hpp"
 #include "display.hpp"
+#include "freeRTOSVariables.hpp"
 #include "light.hpp"
 #include "html.hpp"
 
@@ -93,12 +98,16 @@ void handleUpdateReceived(){
 
 // Função que atualiza dados enviados do servidor para o cliente
 void handleUpdateTemp(){
-  Server->send(200, "text/plain"/*texto normal*/, Temperature);
+  float temperature;
+  xQueueReceive(xQueueTemperatureDHT, &temperature, portMAX_DELAY);
+  Server->send(200, "text/plain"/*texto normal*/, String(temperature));
 }
 
 // Função que atualiza dados enviados do servidor para o cliente
 void handleUpdateHum(){
-  Server->send(200, "text/plain"/*texto normal*/, Humidity);
+  float humidity;
+  xQueueReceive(xQueueHumidityDHT, &humidity, portMAX_DELAY);
+  Server->send(200, "text/plain"/*texto normal*/, String(humidity));
 }
 
 // Função que lida com as solicitações do cliente

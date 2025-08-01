@@ -30,15 +30,13 @@
 
 /*===============================================================================*/
 // Sensor DHT11
-MOD_DHT DHT_Unified *DHT;                   // ponteiro para classe DHT
-MOD_DHT sensor_t Sensor;                    // classe de um sensor da Adafruit (lib usada)
-MOD_DHT String Temperature;                 // dado de temperatura
-MOD_DHT String Humidity;                    // dado de humidade
+MOD_DHT DHT_Unified *DHT;                           // ponteiro para classe DHT
+MOD_DHT sensor_t Sensor;                            // classe de um sensor da Adafruit (lib usada)
 
 /*===============================================================================*/
 // Prototypes do sensor DHT
 void setupDHT();
-void updateTemperatureDHT();
-void updateHumidityDHT();
+float updateTemperatureDHT();
+float updateHumidityDHT();
 
 #endif

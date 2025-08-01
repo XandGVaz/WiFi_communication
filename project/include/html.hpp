@@ -215,7 +215,7 @@ const char htmlPage[] PROGMEM = R"=====(
                 document.querySelector('.submitButton').disabled = false; // Habilita o botão
             }
             
-            // Script realizado a cada 1 segundo 
+            // Temporização de realização do script
             setInterval(updateReceived, 1000);
             setInterval(updateTemperature, 1000);
             setInterval(updateHumidity, 1000);
