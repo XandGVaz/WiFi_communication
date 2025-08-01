@@ -93,13 +93,11 @@ void handleUpdateReceived(){
 
 // Função que atualiza dados enviados do servidor para o cliente
 void handleUpdateTemp(){
-  updateValueDHT();
   Server->send(200, "text/plain"/*texto normal*/, Temperature);
 }
 
 // Função que atualiza dados enviados do servidor para o cliente
 void handleUpdateHum(){
-  updateValueDHT();
   Server->send(200, "text/plain"/*texto normal*/, Humidity);
 }
 

@@ -38,6 +38,7 @@ MOD_DHT String Humidity;                    // dado de humidade
 /*===============================================================================*/
 // Prototypes do sensor DHT
 void setupDHT();
-void updateValueDHT();
+void updateTemperatureDHT();
+void updateHumidityDHT();
 
 #endif
