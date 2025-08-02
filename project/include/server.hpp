@@ -23,6 +23,7 @@
 #include "html.hpp"
 #endif
 
+/*===============================================================================*/
 // Include Guard para evitar múltipla declaração de variáveis globais
 #ifdef DEF_MOD_SERVER
     #define MOD_SERVER extern

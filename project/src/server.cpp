@@ -2,19 +2,16 @@
  * Projeto: Comunicação WiFi para IoT
  * Autor: Vitor Alexandre Garcia Vaz
  * Descrição: Este arquivo contém a implementação da criação e administração do server .
- * Data: 01/08/2025
+ * Data: 02/08/2025
  */
 
 // Include Guards para inclusão de headers sem múltipla definição
 #define DEF_MOD_SERVER
-#define DEF_MOD_DISPLAY
 #define DEF_MOD_FREERTOS
 
 // Inclusão de header
 #include "server.hpp"
-#include "display.hpp"
 #include "freeRTOSVariables.hpp"
-#include "html.hpp"
 
 /*===============================================================================*/
 // Funções do servidor
@@ -69,16 +66,16 @@ void handleLight(){
 
 // Lida com comandos de submissão da paǵina
 void handleSubmit(){
-    String received;
+    String* receivedMessage = new String("");
 
     // Caso um dado (texto) tenha sido submetido, o mesmo é recebido no serial e no Display1602
     if(Server->hasArg("clientMsg")){
-      received = Server->arg("clientMsg");
-      updateValueDisplay(received);
 
-      Serial.println(F("------------------------------------"));
-      Serial.print("Received: ");
-      Serial.println(received);
+      // Recebe mensagem enviada via requisição POST
+      (*receivedMessage) = Server->arg("clientMsg");
+
+      // Adiciona mensagem recebida na fila de mensagens a serem exibidas no display
+      xQueueSend(xQueueMessageDisplay, &receivedMessage, portMAX_DELAY);
       
     }
 }

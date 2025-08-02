@@ -2,7 +2,7 @@
  * Projeto: Comunicação WiFi para IoT
  * Autor: Vitor Alexandre Garcia Vaz
  * Descrição: Este arquivo contém a header de implementação da iluminação controlada pelo usuário.
- * Data: 31/07/2025
+ * Data: 01/08/2025
  */
 
 #ifndef LIGHT_HPP

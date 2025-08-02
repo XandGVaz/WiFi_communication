@@ -45,7 +45,7 @@ void setupDisplay(){
 }
 
 // Função que atualiza o valor presente no display, confome o texto passado por parâmetro
-void updateValueDisplay(String value){
+void updateMessageDisplay(String value){
   // Limpa tela do Display
   Display->clear();
 

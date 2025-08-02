@@ -40,7 +40,7 @@ MOD_DISPLAY LiquidCrystal_I2C *Display;             // ponteiro para classe lcd
 /*===============================================================================*/
 // Prototypes do Display
 void setupDisplay();
-void updateValueDisplay(String value);
+void updateMessageDisplay(String value);
 bool I2cAddrTest(uint8_t addr);
 
 #endif

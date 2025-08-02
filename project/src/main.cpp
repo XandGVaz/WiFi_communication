@@ -2,9 +2,25 @@
  * Projeto: Comunicação WiFi para IoT
  * Autor: Vitor Alexandre Garcia Vaz
  * Descrição: Este arquivo contém a função principal para o projeto de comunicação WiFi.
- * Data: 01/08/2025
+ * Data: 02/08/2025
  */
 
+/*===============================================================================*/
+// Descrição das tarefas realizadas no sistema de tempo eral
+//obs: não inclui tarefas criadas na configuração do server criado pela ESP32 
+
+/*
+Task                       Core  Prio     Descrição
+------------------------------------------------------------------------------------------------
+vTaskClient                 1     4     Lida com requisições de client
+vTaskSendData               1     3     Envia valor do monitor serial para o usuário de página
+vTaskUpdateTemperatureDHT   0     2     Atualiza valor de temperatura medido pelo sensor dht
+vTaskUpdateHumidityDHT      0     2     Atualiza valor de umidade medido pelo sensor dht
+vTaskLightMode              0     3     Defino o modo de acendimento (ligado/desligado) da luz
+vTaskUpdateMessageDisplay   0     3     Exibe mensagem enviada por usuários no display
+*/
+
+/*===============================================================================*/
 // Bibliotecas do projeto 
 #include "server.hpp"
 #include "dht.hpp"
@@ -16,7 +32,7 @@
 // Configuração do microcontrolador
 void setup() {
 
-  // Configura pino do led como saída do sistema
+  // Configura aparelho de luz
   setupLight();
   
   // Configura sensor DHT
@@ -60,6 +76,13 @@ void setup() {
     while(1);
   }
 
+  xQueueMessageDisplay = xQueueCreate(2, sizeof(String*));
+  if(xQueueMessageDisplay == NULL){
+    Serial.println(F("------------------------------------"));
+    Serial.print("Erro na criação da fila de mensagems a serem exebidas no display");
+    while(1);
+  }
+
   // Criação de task de tratamento de requisições do client
   xTaskCreatePinnedToCore(vTaskClient, "TASK_CLIENT", configMINIMAL_STACK_SIZE + 4096 , NULL, 4, &xHandleTaskClient, APP_CPU_NUM);
   if(xHandleTaskClient == NULL){
@@ -94,9 +117,17 @@ void setup() {
 
   // Criação de task de definição do estado da luz
   xTaskCreatePinnedToCore(vTaskLightMode, "TASK_LIGHT_MODE", configMINIMAL_STACK_SIZE + 4096, NULL, 3, &xHandleTaskLightMode, PRO_CPU_NUM);
-  if(xHandleTaskUpdateHumidityDHT == NULL){
+  if(xHandleTaskLightMode == NULL){
     Serial.println(F("------------------------------------"));
     Serial.print("Erro na criação da TASK_LIGHT_MODE");
+    while(1);
+  }
+
+  // Criação de task de definição do estado da luz
+  xTaskCreatePinnedToCore(vTaskUpdateMessageDisplay, "TASK_UPDATE_MESSAGE_DISPLAY", configMINIMAL_STACK_SIZE + 16384, NULL, 3, &xHandleTaskUpdateMessageDisplay, PRO_CPU_NUM);
+  if(xHandleTaskUpdateMessageDisplay == NULL){
+    Serial.println(F("------------------------------------"));
+    Serial.print("Erro na criação da TASK_UPDATE_MESSAGE_DISPLAY");
     while(1);
   }
 }
@@ -183,5 +214,31 @@ void vTaskLightMode(void *pvParameters){
 
     // Bloqueio da task por 50ms
     vTaskDelay(pdMS_TO_TICKS(50));
+  }
+}
+
+// Atualização da mensagem do display
+void vTaskUpdateMessageDisplay(void *pvParameters){
+
+  String *receivedMessage = new String("");
+
+  while(1){
+
+    // Recepção de nova mensagem da fila
+    xQueueReceive(xQueueMessageDisplay, &receivedMessage, portMAX_DELAY);
+
+    // Atualiza mensagem recebida no display
+    updateMessageDisplay(*receivedMessage);
+
+    // Mostra mensagem recebida da fila no monitor serial
+    Serial.println(F("------------------------------------"));
+    Serial.print("Received: ");
+    Serial.println(*receivedMessage);
+    
+    // Deleta string criada
+    delete receivedMessage;
+    
+    // Bloqueio por 50ms
+    vTaskDelay(50);
   }
 }
