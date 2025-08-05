@@ -5,11 +5,12 @@
  * Data: 02/08/2025
  */
 
+/*===============================================================================*/
 // Include Guards para inclusão de headers sem múltipla definição
 #define DEF_MOD_SERVER
 #define DEF_MOD_FREERTOS
 
-// Inclusão de header
+// Inclusão de headers
 #include "server.hpp"
 #include "freeRTOSVariables.hpp"
 

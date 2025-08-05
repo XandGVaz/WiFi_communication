@@ -33,8 +33,8 @@
 
 /*===============================================================================*/
 // Informações da rede WiFi transmitida pelo roteador
-MOD_SERVER const String ssidRounter =  "Usa 3G folgado_2.4GHZ";          // nome da rede
-MOD_SERVER const String passwordRounter =  "soentrabonito";     // senha
+const char ssidRounter[] = "Usa 3G folgado_2.4GHZ";  // nome da rede
+const char passwordRounter[] = "soentrabonito";      // senha
 MOD_SERVER String Sended;                                       // dado enviado para cliente
 MOD_SERVER WebServer *Server;                                   // ponteiro para classe server 
 
